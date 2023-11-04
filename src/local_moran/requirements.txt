@@ -2,3 +2,4 @@ pandas
 geopandas
 libpysal
 flask
+pysal
