@@ -1,5 +1,6 @@
+flask
 pandas
 geopandas
-libpysal
-flask
+matplotlib
 pysal
+libpysal
