@@ -1,10 +1,20 @@
 from utils import fetch_data_from_api, get_data_for_getis, Getis_Ord_Local_regression, plot_Getis_Ord_local
+from datetime import datetime
+from datetime import timedelta
 
 # Specify the airqloud_id
-airqloud_id = "653cb91cc0ad670013b28160"
+airqloud_id = "641b3069572090002992a7a1"
+
+# Usage example:
+start_time = datetime(2023, 10, 5, 9, 0, 0)
+end_time = datetime(2023, 11, 5, 9, 0, 0)
+
+# Call the function with the desired start and end times
+data = fetch_data_from_api(airqloud_id, start_time, end_time)
+
 
 # Fetch data from the API
-data = fetch_data_from_api(airqloud_id)
+#data = fetch_data_from_api(airqloud_id)
 
 if data:
     # Get the GeoDataFrame with relevant data

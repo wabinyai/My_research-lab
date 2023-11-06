@@ -9,8 +9,19 @@ from configure import Config
 from pysal.explore import esda
 
 
-def fetch_data_from_api(airqloud_id) -> list:
-    airqloud_params = {"token": Config.AIRQO_API_TOKEN}
+def fetch_data_from_api(airqloud_id, start_time, end_time) -> list:
+    # Convert start_time and end_time to ISO format
+    start_time_iso = start_time.isoformat() + 'Z'
+    end_time_iso = end_time.isoformat() + 'Z'
+    
+    airqloud_params = {
+        "token": Config.AIRQO_API_TOKEN,
+        "startTime": start_time_iso,
+        "endTime": end_time_iso,
+        "recent": "no",
+        "page": "2"
+    }
+    
     airqloud_url = f"https://platform.airqo.net/api/v2/devices/measurements/airqlouds/{airqloud_id}"
      
     airqloud_response = requests.get(airqloud_url, params=airqloud_params)
@@ -20,6 +31,7 @@ def fetch_data_from_api(airqloud_id) -> list:
     else:
         # Handle the response error, e.g., raise an exception or return an empty list
         return []
+
 
 def get_data_for_moran(data):
     # Extract relevant data for Local Moran's I
