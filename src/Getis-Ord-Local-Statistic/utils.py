@@ -60,20 +60,37 @@ def Getis_Ord_Local_regression(gdf):
     g_local = G_Local(pm2_5, w)
     p_values = g_local.p_sim
     z_scores = g_local.Zs
-    alpha = 0.05
-    significant_hot_spots = (p_values < alpha) & (z_scores > 0)
-    significant_cold_spots = (p_values < alpha) & (z_scores < 0)
-    not_significant = (p_values >= alpha)
+        # Significance levels for clusters
+    alpha_99 = 0.01  # 99% confidence level
+    alpha_95 = 0.05  # 95% confidence level
+    alpha_90 = 0.10  # 90% confidence level
+    significant_hot_spots_99 = (g_local.p_sim < alpha_99) & (g_local.Zs > 0)
+    significant_hot_spots_95 = (g_local.p_sim < alpha_95) & (g_local.Zs > 0)
+    significant_hot_spots_90 = (g_local.p_sim < alpha_90) & (g_local.Zs > 0)
+
+    significant_cold_spots_99 = (g_local.p_sim < alpha_99) & (g_local.Zs < 0)
+    significant_cold_spots_95 = (g_local.p_sim < alpha_95) & (g_local.Zs < 0)
+    significant_cold_spots_90 = (g_local.p_sim < alpha_90) & (g_local.Zs < 0)
     
-    return g_local, significant_hot_spots, significant_cold_spots, not_significant
+    return g_local, significant_hot_spots_99, significant_hot_spots_95, significant_hot_spots_90, significant_cold_spots_99, significant_cold_spots_95, significant_cold_spots_90
  
 
-
-def plot_Getis_Ord_local(g_local, significant_hot_spots, significant_cold_spots, not_significant, gdf):
+def plot_Getis_Ord_local(g_local, significant_hot_spots_99, significant_hot_spots_95, significant_hot_spots_90, significant_cold_spots_99, significant_cold_spots_95, significant_cold_spots_90, gdf):
     fig, ax = plt.subplots(figsize=(10, 10))
-    gdf.plot(ax=ax, markersize=20, color='gray', alpha=0.7, label='Not Significant')
-    gdf[significant_hot_spots].plot(ax=ax, markersize=40, color='red', alpha=0.7, label='Hot Spot')
-    gdf[significant_cold_spots].plot(ax=ax, markersize=40, color='blue', alpha=0.7, label='Cold Spot')
+    
+    # Plot the GeoDataFrame with different colors and marker sizes for significant hot spots
+    gdf[significant_hot_spots_99].plot(ax=ax, markersize=40, color='red', alpha=0.7, label='Hot Spot (99%)')
+    gdf[significant_hot_spots_95].plot(ax=ax, markersize=30, color='orange', alpha=0.7, label='Hot Spot (95%)')
+    gdf[significant_hot_spots_90].plot(ax=ax, markersize=20, color='yellow', alpha=0.7, label='Hot Spot (90%)')
+    
+    # Plot the GeoDataFrame with different colors and marker sizes for significant cold spots
+    gdf[significant_cold_spots_99].plot(ax=ax, markersize=40, color='blue', alpha=0.7, label='Cold Spot (99%)')
+    gdf[significant_cold_spots_95].plot(ax=ax, markersize=30, color='lightblue', alpha=0.7, label='Cold Spot (95%)')
+    gdf[significant_cold_spots_90].plot(ax=ax, markersize=20, color='green', alpha=0.7, label='Cold Spot (90%)')
+    
+    # Plot non-significant areas with gray markers
+    gdf[~(significant_hot_spots_99 | significant_hot_spots_95 | significant_hot_spots_90 | significant_cold_spots_99 | significant_cold_spots_95 | significant_cold_spots_90)].plot(ax=ax, markersize=20, color='gray', alpha=0.7, label='Not Significant')
+    
     plt.title("Getis-Ord Local Statistic - Hot Spots, Cold Spots, and Not Significant")
     plt.legend()
     plt.show()
