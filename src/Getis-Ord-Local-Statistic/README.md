@@ -10,6 +10,16 @@
 ```python.exe -m pip install --upgrade pip```
 ```pip install -r requirements.txt```
 
+### RUN
+python main.py
+
+### API token 
+Create an API token from https://platform.airqo.net/settings
+    Registered Clients
+        Generate Token
+    Access Tokens
+
+
 ### Know your airqloud id
 ```Example```
 ```Uganda: ```
