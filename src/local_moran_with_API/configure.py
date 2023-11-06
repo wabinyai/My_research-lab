@@ -9,5 +9,3 @@ load_dotenv(dotenv_path)
 
 class Config:
     AIRQO_API_TOKEN = os.getenv("AIRQO_API_TOKEN")
-    DEVICE_REGISTRY_URL = os.getenv("DEVICE_REGISTRY_URL")
-    AIRQO_ID = os.getenv("AIRQO_ID")
