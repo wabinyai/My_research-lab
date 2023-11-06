@@ -1,7 +1,7 @@
 # My_research-lab
 uses a mono repo 
 
-[Getis-Ord-Local-Statistic](https://github.com/username/repo-name](https://github.com/wabinyai/My_research-lab/tree/main/src/Getis-Ord-Local-Statistic)https://github.com/wabinyai/My_research-lab/tree/main/src/Getis-Ord-Local-Statistic)
+[Getis-Ord-Local-Statistic](https://github.com/wabinyai/My_research-lab/tree/main/src/Getis-Ord-Local-Statistic)
 
 Getis-Ord Gi* statistic, is used to measure spatial autocorrelation and identify hot-spots (clusters of high attribute levels) and cold-spots (clusters of low attribute levels) with varying of significance.
 Getis-Ord Gi* statistic, is used to measure spatial autocorrelation and identify hot-spots (clusters of high attribute levels) and cold-spots (clusters of low attribute levels) with varying.
