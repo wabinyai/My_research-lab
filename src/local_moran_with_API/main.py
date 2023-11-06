@@ -3,7 +3,7 @@ from datetime import datetime
 from datetime import timedelta
 
 # Specify the airqloud_id
-airqloud_id = "641b2e58fe36cc00292f4c1a"
+airqloud_id = "618b850c9326560036a453eb"
 
 # Usage example:
 start_time = datetime(2023, 10, 5, 9, 0, 0)
@@ -17,6 +17,8 @@ data = fetch_data_from_api(airqloud_id, start_time, end_time)
 if data:
     # Get the GeoDataFrame with relevant data
     gdf = get_data_for_moran(data)
+    gdf= gdf.dropna(subset='calibratedValue')
+    print(gdf.info())
 
     # Calculate Local Moran's I
     moran_loc = moran_local_regression(gdf)

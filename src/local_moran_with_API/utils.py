@@ -43,9 +43,18 @@ def get_data_for_moran(data):
         longitude = measurement['siteDetails']['approximate_longitude']
         features.append({'calibratedValue': calibrated_value, 'latitude': latitude, 'longitude': longitude})
 
+        feature = pd.DataFrame(features)
+        feature= feature.groupby(['latitude', 'longitude'])['calibratedValue'].mean().reset_index()
     # Create a GeoDataFrame
     gdf = gpd.GeoDataFrame(features, geometry=gpd.points_from_xy([f['longitude'] for f in features], [f['latitude'] for f in features]))
     return gdf  # Return the GeoDataFrame
+
+
+# Group by 'latitude' and 'longitude' and calculate the mean 'calibratedValue'
+
+
+
+
 
 def moran_local_regression(gdf):
     w = libpysal.weights.DistanceBand.from_dataframe(gdf, threshold=100, binary=True)
@@ -56,6 +65,7 @@ def plot_moran_local(moran_loc, gdf):
     # Create a new category column based on cluster types
     gdf['cluster_category'] = ['HH' if c == 1 else 'LH' if c == 2 else 'LL' if c == 3 else 'HL' if c == 4 else 'NS' for c in moran_loc.q]
     f, ax = plt.subplots(1, figsize=(10, 10))
-    gdf.plot(column='cluster_category', categorical=True, k=5, cmap='brg', linewidth=0.1, ax=ax, edgecolor='grey', legend=True)
+    gdf.plot(column='cluster_category', categorical=True, k=5, cmap='viridis', linewidth=0.1, ax=ax, edgecolor='grey', legend=True)
     plt.title("Local Moran's I Cluster Map for PM2.5")
     plt.show()
+
