@@ -79,14 +79,14 @@ def plot_Getis_Ord_local(g_local, significant_hot_spots_99, significant_hot_spot
     fig, ax = plt.subplots(figsize=(10, 10))
     
     # Plot the GeoDataFrame with different colors and marker sizes for significant hot spots
-    gdf[significant_hot_spots_99].plot(ax=ax, markersize=40, color='red', alpha=0.7, label='Hot Spot (99%)')
-    gdf[significant_hot_spots_95].plot(ax=ax, markersize=30, color='orange', alpha=0.7, label='Hot Spot (95%)')
-    gdf[significant_hot_spots_90].plot(ax=ax, markersize=20, color='yellow', alpha=0.7, label='Hot Spot (90%)')
+    gdf[significant_hot_spots_99].plot(ax=ax, markersize=40, color='red', alpha=0.9, label='Hot Spot (99%)')
+    gdf[significant_hot_spots_95].plot(ax=ax, markersize=30, color='#FFAC1C', alpha=0.9, label='Hot Spot (95%)')
+    gdf[significant_hot_spots_90].plot(ax=ax, markersize=20, color='yellow', alpha=0.9, label='Hot Spot (90%)')
     
     # Plot the GeoDataFrame with different colors and marker sizes for significant cold spots
-    gdf[significant_cold_spots_99].plot(ax=ax, markersize=40, color='blue', alpha=0.7, label='Cold Spot (99%)')
-    gdf[significant_cold_spots_95].plot(ax=ax, markersize=30, color='lightblue', alpha=0.7, label='Cold Spot (95%)')
-    gdf[significant_cold_spots_90].plot(ax=ax, markersize=20, color='green', alpha=0.7, label='Cold Spot (90%)')
+    gdf[significant_cold_spots_99].plot(ax=ax, markersize=40, color='blue', alpha=0.9, label='Cold Spot (99%)')
+    gdf[significant_cold_spots_95].plot(ax=ax, markersize=30, color='lightblue', alpha=0.9, label='Cold Spot (95%)')
+    gdf[significant_cold_spots_90].plot(ax=ax, markersize=20, color='green', alpha=0.9, label='Cold Spot (90%)')
     
     # Plot non-significant areas with gray markers
     gdf[~(significant_hot_spots_99 | significant_hot_spots_95 | significant_hot_spots_90 | significant_cold_spots_99 | significant_cold_spots_95 | significant_cold_spots_90)].plot(ax=ax, markersize=20, color='gray', alpha=0.7, label='Not Significant')

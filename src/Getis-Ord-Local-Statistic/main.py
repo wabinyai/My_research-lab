@@ -3,7 +3,7 @@ from datetime import datetime
 from datetime import timedelta
 
 # Specify the airqloud_id
-airqloud_id = "653cb91cc0ad670013b28160"
+airqloud_id = "641b3069572090002992a7a1"
 
 # Usage example:
 start_time = datetime(2023, 10, 1, 9, 0, 0)
