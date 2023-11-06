@@ -9,6 +9,8 @@ Getis-Ord Gi* statistic, is used to measure spatial autocorrelation and identify
 
 The Getis-Ord Gi* is given as Eq:
 
+![Getis-Ord Gi ](image.png)
+
 
 [local_moran](https://github.com/wabinyai/My_research-lab/tree/main/src/local_moran_with_API)
 
