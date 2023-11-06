@@ -9,17 +9,10 @@ from configure import Config
 from libpysal.weights import KNN
 from esda import G_Local
 
-
- 
-
-
-
 def fetch_data_from_api(airqloud_id, start_time, end_time) -> list:
     # Convert start_time and end_time to ISO format
     start_time_iso = start_time.isoformat() + 'Z'
     end_time_iso = end_time.isoformat() + 'Z'
-    
-     
     airqloud_params = {
         "token": Config.AIRQO_API_TOKEN,
         "startTime": start_time_iso,
@@ -28,8 +21,7 @@ def fetch_data_from_api(airqloud_id, start_time, end_time) -> list:
         "page": "2"
     }
     
-    airqloud_url = f"https://platform.airqo.net/api/v2/devices/measurements/airqlouds/{airqloud_id}"
-     
+    airqloud_url = f"https://platform.airqo.net/api/v2/devices/measurements/airqlouds/{airqloud_id}"     
     airqloud_response = requests.get(airqloud_url, params=airqloud_params)
     if airqloud_response.status_code == 200:
         data = airqloud_response.json()
@@ -39,7 +31,6 @@ def fetch_data_from_api(airqloud_id, start_time, end_time) -> list:
         return []
 
 def get_data_for_getis(data):
-
     features = []
     for measurement in data['measurements']:
         pm2_5 = measurement.get('pm2_5', {})
@@ -64,13 +55,13 @@ def Getis_Ord_Local_regression(gdf):
     alpha_99 = 0.01  # 99% confidence level
     alpha_95 = 0.05  # 95% confidence level
     alpha_90 = 0.10  # 90% confidence level
-    significant_hot_spots_99 = (g_local.p_sim < alpha_99) & (g_local.Zs > 0)
-    significant_hot_spots_95 = (g_local.p_sim < alpha_95) & (g_local.Zs > 0)
-    significant_hot_spots_90 = (g_local.p_sim < alpha_90) & (g_local.Zs > 0)
+    significant_hot_spots_99 = (p_values < alpha_99) & (z_scores > 0)
+    significant_hot_spots_95 = (p_values < alpha_95) & (z_scores > 0)
+    significant_hot_spots_90 = (p_values < alpha_90) & (z_scores > 0)
 
-    significant_cold_spots_99 = (g_local.p_sim < alpha_99) & (g_local.Zs < 0)
-    significant_cold_spots_95 = (g_local.p_sim < alpha_95) & (g_local.Zs < 0)
-    significant_cold_spots_90 = (g_local.p_sim < alpha_90) & (g_local.Zs < 0)
+    significant_cold_spots_99 = (p_values < alpha_99) & (z_scores < 0)
+    significant_cold_spots_95 = (p_values < alpha_95) & (z_scores < 0)
+    significant_cold_spots_90 = (p_values < alpha_90) & (z_scores < 0)
     
     return g_local, significant_hot_spots_99, significant_hot_spots_95, significant_hot_spots_90, significant_cold_spots_99, significant_cold_spots_95, significant_cold_spots_90
  
