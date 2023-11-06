@@ -8,6 +8,8 @@ Getis-Ord Gi* statistic, is used to measure spatial autocorrelation and identify
 
 
 The Getis-Ord Gi* is given as Eq:
+
+
 [local_moran](https://github.com/wabinyai/My_research-lab/tree/main/src/local_moran_with_API)
 
 Local Moran’s I is a local spatial autocorrelation statistic proposed by Anselin as a way to
