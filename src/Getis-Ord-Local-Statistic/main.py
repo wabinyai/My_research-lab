@@ -3,7 +3,7 @@ from datetime import datetime
 from datetime import timedelta
 
 # Specify the airqloud_id
-airqloud_id = "641b3069572090002992a7a1"
+airqloud_id = "641b2e58fe36cc00292f4c1a"
 
 # Usage example:
 start_time = datetime(2023, 10, 5, 9, 0, 0)
@@ -19,7 +19,8 @@ data = fetch_data_from_api(airqloud_id, start_time, end_time)
 if data:
     # Get the GeoDataFrame with relevant data
     gdf = get_data_for_getis(data)
-
+    gdf= gdf.dropna(subset='calibratedValue')
+    print(gdf.info())
     # Calculate Local Moran's I
     g_local, significant_hot_spots, significant_cold_spots, not_significant = Getis_Ord_Local_regression(gdf)
 

@@ -47,7 +47,8 @@ def get_data_for_getis(data):
         latitude = measurement['siteDetails']['approximate_latitude']
         longitude = measurement['siteDetails']['approximate_longitude']
         features.append({'calibratedValue': calibrated_value, 'latitude': latitude, 'longitude': longitude})
-
+        feature = pd.DataFrame(features)
+        feature= feature.groupby(['latitude', 'longitude'])['calibratedValue'].mean().reset_index()
     
     gdf = gpd.GeoDataFrame(features, geometry=gpd.points_from_xy([f['longitude'] for f in features], [f['latitude'] for f in features]))
     return gdf  # Return the GeoDataFrame
@@ -62,7 +63,7 @@ def Getis_Ord_Local_regression(gdf):
     alpha = 0.05
     significant_hot_spots = (p_values < alpha) & (z_scores > 0)
     significant_cold_spots = (p_values < alpha) & (z_scores < 0)
-    not_significant = p_values >= alpha
+    not_significant = (p_values >= alpha)
     
     return g_local, significant_hot_spots, significant_cold_spots, not_significant
  
