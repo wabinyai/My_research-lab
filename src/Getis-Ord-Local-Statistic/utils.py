@@ -10,8 +10,24 @@ from libpysal.weights import KNN
 from esda import G_Local
 
 
-def fetch_data_from_api(airqloud_id) -> list:
-    airqloud_params = {"token": Config.AIRQO_API_TOKEN}
+ 
+
+
+
+def fetch_data_from_api(airqloud_id, start_time, end_time) -> list:
+    # Convert start_time and end_time to ISO format
+    start_time_iso = start_time.isoformat() + 'Z'
+    end_time_iso = end_time.isoformat() + 'Z'
+    
+     
+    airqloud_params = {
+        "token": Config.AIRQO_API_TOKEN,
+        "startTime": start_time_iso,
+        "endTime": end_time_iso,
+        "recent": "no",
+        "page": "2"
+    }
+    
     airqloud_url = f"https://platform.airqo.net/api/v2/devices/measurements/airqlouds/{airqloud_id}"
      
     airqloud_response = requests.get(airqloud_url, params=airqloud_params)
