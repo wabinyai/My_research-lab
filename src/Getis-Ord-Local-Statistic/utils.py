@@ -10,15 +10,10 @@ from libpysal.weights import KNN
 from esda import G_Local
 
 
- 
-
-
-
 def fetch_data_from_api(airqloud_id, start_time, end_time) -> list:
     # Convert start_time and end_time to ISO format
     start_time_iso = start_time.isoformat() + 'Z'
     end_time_iso = end_time.isoformat() + 'Z'
-    
      
     airqloud_params = {
         "token": Config.AIRQO_API_TOKEN,
@@ -35,7 +30,6 @@ def fetch_data_from_api(airqloud_id, start_time, end_time) -> list:
         data = airqloud_response.json()
         return data
     else:
-        # Handle the response error, e.g., raise an exception or return an empty list
         return []
 
 def get_data_for_getis(data):
@@ -53,7 +47,6 @@ def get_data_for_getis(data):
     gdf = gpd.GeoDataFrame(features, geometry=gpd.points_from_xy([f['longitude'] for f in features], [f['latitude'] for f in features]))
     return gdf  # Return the GeoDataFrame
 
-
 def Getis_Ord_Local_regression(gdf):
     w = KNN.from_dataframe(gdf, k=7) 
     pm2_5 = gdf['calibratedValue'] 
@@ -67,8 +60,6 @@ def Getis_Ord_Local_regression(gdf):
     
     return g_local, significant_hot_spots, significant_cold_spots, not_significant
  
-
-
 def plot_Getis_Ord_local(g_local, significant_hot_spots, significant_cold_spots, not_significant, gdf):
     fig, ax = plt.subplots(figsize=(10, 10))
     gdf.plot(ax=ax, markersize=20, color='gray', alpha=0.7, label='Not Significant')
