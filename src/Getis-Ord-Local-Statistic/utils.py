@@ -20,7 +20,7 @@ def fetch_data_from_api(airqloud_id, start_time, end_time) -> list:
         "startTime": start_time_iso,
         "endTime": end_time_iso,
         "recent": "no",
-        "page": "2"
+        "page": "5"
     }
     
     airqloud_url = f"https://platform.airqo.net/api/v2/devices/measurements/airqlouds/{airqloud_id}"
@@ -68,3 +68,4 @@ def plot_Getis_Ord_local(g_local, significant_hot_spots, significant_cold_spots,
     plt.title("Getis-Ord Local Statistic - Hot Spots, Cold Spots, and Not Significant")
     plt.legend()
     plt.show()
+    
