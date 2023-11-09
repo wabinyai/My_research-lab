@@ -8,7 +8,6 @@ import matplotlib.pyplot as plt
 from configure import Config
 from pysal.explore import esda
 
-
 def fetch_data_from_api(airqloud_id, start_time, end_time) -> list:
     # Convert start_time and end_time to ISO format
     start_time_iso = start_time.isoformat() + 'Z'
@@ -32,7 +31,6 @@ def fetch_data_from_api(airqloud_id, start_time, end_time) -> list:
         # Handle the response error, e.g., raise an exception or return an empty list
         return []
 
-
 def get_data_for_moran(data):
     # Extract relevant data for Local Moran's I
     features = []
@@ -48,13 +46,6 @@ def get_data_for_moran(data):
     # Create a GeoDataFrame
     gdf = gpd.GeoDataFrame(features, geometry=gpd.points_from_xy([f['longitude'] for f in features], [f['latitude'] for f in features]))
     return gdf  # Return the GeoDataFrame
-
-
-# Group by 'latitude' and 'longitude' and calculate the mean 'calibratedValue'
-
-
-
-
 
 def moran_local_regression(gdf):
     w = libpysal.weights.DistanceBand.from_dataframe(gdf, threshold=100, binary=True)

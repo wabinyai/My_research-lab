@@ -12,8 +12,6 @@ end_time = datetime(2023, 11, 5, 9, 0, 0)
 # Call the function with the desired start and end times
 data = fetch_data_from_api(airqloud_id, start_time, end_time)
 
-
-
 if data:
     # Get the GeoDataFrame with relevant data
     gdf = get_data_for_moran(data)
