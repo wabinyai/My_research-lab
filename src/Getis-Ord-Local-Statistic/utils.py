@@ -35,6 +35,10 @@ def get_data_for_getis(data):
     for measurement in data['measurements']:
         pm2_5 = measurement.get('pm2_5', {})
         calibrated_value = pm2_5.get('calibratedValue')
+            # Check if calibrated_value is null, if so, use the 'value' instead
+        if calibrated_value is None:
+             calibrated_value = pm2_5.get('value')
+    
         latitude = measurement['siteDetails']['approximate_latitude']
         longitude = measurement['siteDetails']['approximate_longitude']
         features.append({'calibratedValue': calibrated_value, 'latitude': latitude, 'longitude': longitude})
@@ -65,7 +69,6 @@ def Getis_Ord_Local_regression(gdf):
     
     return g_local, significant_hot_spots_99, significant_hot_spots_95, significant_hot_spots_90, significant_cold_spots_99, significant_cold_spots_95, significant_cold_spots_90
  
-
 def plot_Getis_Ord_local(g_local, significant_hot_spots_99, significant_hot_spots_95, significant_hot_spots_90, significant_cold_spots_99, significant_cold_spots_95, significant_cold_spots_90, gdf):
     fig, ax = plt.subplots(figsize=(10, 10))
     
