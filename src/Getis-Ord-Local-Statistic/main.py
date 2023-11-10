@@ -3,7 +3,7 @@ from datetime import datetime
 from datetime import timedelta
 
 # Specify the airqloud_id
-airqloud_id = "641b3069572090002992a7a1"
+airqloud_id = "64dcc962a21ec10013f104b2"
 
 # Usage example:
 start_time = datetime(2023, 9, 1, 9, 0, 0)
@@ -28,7 +28,7 @@ if data:
 
         plot_Getis_Ord_local(g_local,  significant_hot_spots_99, significant_hot_spots_95, significant_hot_spots_90, significant_cold_spots_99, significant_cold_spots_95, significant_cold_spots_90, gdf)
     else:
-        print("Column 'calibratedValue' not found in GeoDataFrame.")
+        print("No measurements for this search.")
 else:
     print("Failed to fetch data from the API.")
 
