@@ -3,14 +3,13 @@ from datetime import datetime
 from datetime import timedelta
 
 # Specify the airqloud_id
-airqloud_id = "618b82069326560036a45344"
-
-# Usage example:
+airqloud_id = "618b850c9326560036a453eb"
 start_time = datetime(2023, 10, 5, 9, 0, 0)
 end_time = datetime(2023, 11, 5, 9, 0, 0)
+page = 1
 
 # Call the function with the desired start and end times
-data = fetch_data_from_api(airqloud_id, start_time, end_time)
+data = fetch_data_from_api(airqloud_id, start_time, end_time, page)
 
 if data:
     # Get the GeoDataFrame with relevant data
