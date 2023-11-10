@@ -8,7 +8,7 @@ import matplotlib.pyplot as plt
 from configure import Config
 from pysal.explore import esda
 
-def fetch_data_from_api(airqloud_id, start_time, end_time) -> list:
+def fetch_data_from_api(airqloud_id, start_time, end_time, page  ) -> list:
     # Convert start_time and end_time to ISO format
     start_time_iso = start_time.isoformat() + 'Z'
     end_time_iso = end_time.isoformat() + 'Z'
@@ -18,7 +18,7 @@ def fetch_data_from_api(airqloud_id, start_time, end_time) -> list:
         "startTime": start_time_iso,
         "endTime": end_time_iso,
         "recent": "no",
-        "page": "2"
+        "page": page
     }
     
     airqloud_url = f"https://platform.airqo.net/api/v2/devices/measurements/airqlouds/{airqloud_id}"
@@ -36,7 +36,7 @@ def get_data_for_moran(data):
     features = []
     for measurement in data['measurements']:
         pm2_5 = measurement.get('pm2_5', {})
-        calibrated_value = pm2_5.get('calibratedValue', pm2_5.get('Value'))  # Use 'Value' if 'calibratedValue' is None        
+        calibrated_value = pm2_5.get('calibratedValue')
         latitude = measurement['siteDetails']['approximate_latitude']
         longitude = measurement['siteDetails']['approximate_longitude']
         features.append({'calibratedValue': calibrated_value, 'latitude': latitude, 'longitude': longitude})
