@@ -1,0 +1,42 @@
+<!-- templates/folium_map.html -->
+
+<!-- Include the generated Folium map -->
+<div id="folium_map" style="height: 500px;"></div>
+
+<!-- Include the Leaflet code to display the Folium map -->
+<script>
+    var mymap = L.map('folium_map').setView([{{ gdf['latitude'].mean() }}, {{ gdf['longitude'].mean() }}], 12);
+
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: '&copy; OpenStreetMap contributors'
+    }).addTo(mymap);
+
+    // Include markers based on cluster categories
+    {% for index, row in gdf.iterrows() %}
+        var category = '{{ row["cluster_category"] }}';
+        var color;
+
+        if (category === 'HH') {
+            color = 'red';
+        } else if (category === 'LH') {
+            color = 'green';
+        } else if (category === 'LL') {
+            color = 'blue';
+        } else if (category === 'HL') {
+            color = 'purple';
+        } else {
+            color = 'grey';
+        }
+
+        L.circleMarker([{{ row["latitude"] }}, {{ row["longitude"] }}], {radius: 5, color: color, fill: true, fillColor: color}).addTo(mymap);
+    {% endfor %}
+
+    // Include the legend
+    var legend = L.control({position: 'bottomleft'});
+    legend.onAdd = function (map) {
+        var div = L.DomUtil.create('div', 'info legend');
+        div.innerHTML = '{{ legend_html|safe }}';
+        return div;
+    };
+    legend.addTo(mymap);
+</script>
