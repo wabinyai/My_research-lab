@@ -1,15 +1,21 @@
-from flask import Flask, render_template
-from utils import fetch_data_from_api, get_data_for_moran, moran_local_regression, plot_moran_local, plot_folium_map
+from flask import Flask, render_template, request
+from utils import fetch_data_from_api, get_data_for_moran, moran_local_regression, plot_folium_map
 from datetime import datetime
 
 app = Flask(__name__)
 
-@app.route('/')
+@app.route('/', methods=['GET', 'POST'])
 def index():
-    # Specify the airqloud_id
-    grid_id = "64b7b810d7249f0029fecda9"
-    start_time = datetime(2023, 10, 5, 9, 0, 0)
-    end_time = datetime(2023, 11, 5, 9, 0, 0)
+    if request.method == 'POST':
+        grid_id = request.form.get('grid_id')
+        start_time = datetime.strptime(request.form.get('start_time'), '%Y-%m-%dT%H:%M')
+        end_time = datetime.strptime(request.form.get('end_time'), '%Y-%m-%dT%H:%M')
+    else:
+        # Specify the airqloud_id
+        grid_id = "64b7b6f1f2b99f00296acd19"
+        start_time = datetime(2023, 10, 5, 9, 0, 0)
+        end_time = datetime(2023, 11, 5, 9, 0, 0)
+
     page = 1
 
     # Call the function with the desired start and end times
@@ -27,7 +33,7 @@ def index():
             moran_loc = moran_local_regression(gdf)
             plot_folium_map(moran_loc, gdf)
             print("Local Moran's I saved in cluster_map.html")
-            #plot_moran_local(moran_loc, gdf)
+            # plot_moran_local(moran_loc, gdf)
 
             # Render the template with the Folium map and pass the gdf variable
             return render_template('index.html', gdf=gdf)

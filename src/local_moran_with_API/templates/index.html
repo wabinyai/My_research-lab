@@ -10,6 +10,21 @@
 </head>
 <body>
     <h1>Local Moran's I Map</h1>
+
+    <!-- Form to input grid_id, start_time, and end_time -->
+    <form method="POST" action="/">
+        <label for="grid_id">Grid ID:</label>
+        <input type="text" id="grid_id" name="grid_id" value="{{ gdf['grid_id'] }}" required>
+        
+        <label for="start_time">Start Time:</label>
+        <input type="datetime-local" id="start_time" name="start_time" value="{{ gdf['start_time'] | default('2023-10-05T09:00') }}" required>
+        
+        <label for="end_time">End Time:</label>
+        <input type="datetime-local" id="end_time" name="end_time" value="{{ gdf['end_time'] | default('2023-11-05T09:00') }}" required>
+
+        <input type="submit" value="Submit">
+    </form>
+
     <!-- Include the generated Folium map -->
     {% include 'folium_map.html' %}
 </body>
