@@ -6,3 +6,4 @@ pysal
 libpysal
 requests
 python-dotenv
+folium
