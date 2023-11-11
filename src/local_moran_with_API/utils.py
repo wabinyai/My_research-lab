@@ -37,6 +37,8 @@ def get_data_for_moran(data):
     for measurement in data['measurements']:
         pm2_5 = measurement.get('pm2_5', {})
         calibrated_value = pm2_5.get('calibratedValue')
+        if calibrated_value is None:
+                calibrated_value = pm2_5.get('value')
         latitude = measurement['siteDetails']['approximate_latitude']
         longitude = measurement['siteDetails']['approximate_longitude']
         features.append({'calibratedValue': calibrated_value, 'latitude': latitude, 'longitude': longitude})
