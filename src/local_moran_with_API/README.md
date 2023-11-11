@@ -18,8 +18,10 @@
 ```Kenya: 636629b22fa4d3001e739d0f```
 ```Fort Portal : 618b850c9326560036a453eb```
 
-### RUN
+### RUN local 
 python main.py
+### RUN local on web browser
+python app.py
 
 ### API token 
 Create an API token from https://platform.airqo.net/settings
