@@ -19,7 +19,6 @@ if data:
         print("Number of NaN values in calibratedValue:", gdf['calibratedValue'].isna().sum())
         gdf= gdf.dropna(subset='calibratedValue')
         print(gdf.info())
-
     # Calculate Local Moran's I
         moran_loc = moran_local_regression(gdf)
         plot_moran_local(moran_loc, gdf)
