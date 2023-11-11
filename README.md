@@ -19,3 +19,5 @@ identify local clusters and outliers. In python this function is realized by the
 Analysis (Anselin Local Moran’s I) tool. The local Moran’s I is given as Eq:
 
 ![local_moran](image-1.png)
+
+![Local Moran UI](image-2.png)
