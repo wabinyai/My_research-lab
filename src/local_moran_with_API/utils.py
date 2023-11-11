@@ -7,6 +7,7 @@ import requests
 import matplotlib.pyplot as plt
 from configure import Config
 from pysal.explore import esda
+import folium
 
 def fetch_data_from_api(grid_id, start_time, end_time, page  ) -> list:
     # Convert start_time and end_time to ISO format
@@ -61,3 +62,56 @@ def plot_moran_local(moran_loc, gdf):
     plt.title("Local Moran's I Cluster Map for PM2.5")
     plt.show()
 
+def plot_folium_map(moran_loc, gdf):
+    # Create a Folium map
+    gdf['cluster_category'] = ['HH' if c == 1 else 'LH' if c == 2 else 'LL' if c == 3 else 'HL' if c == 4 else 'NS' for c in moran_loc.q]
+    m = folium.Map(location=[gdf['latitude'].mean(), gdf['longitude'].mean()], tiles='Stamen Terrain', zoom_start=12)
+
+    # Define a smaller radius for the circle markers
+    circle_radius = 5  # Adjust this value as needed to reduce the size of the circles
+
+    # Add colored markers to the map based on the cluster category
+    for index, row in gdf.iterrows():
+        category = row['cluster_category']
+        if category == 'HH':
+            color = 'red'
+        elif category == 'LH':
+            color = 'green'
+        elif category == 'LL':
+            color = 'blue'
+        elif category == 'HL':
+            color = 'purple'
+        else:
+            color = 'grey'
+
+        folium.CircleMarker(
+            [row['latitude'], row['longitude']],
+            radius=circle_radius,
+            color=color,
+            fill=True,
+            fill_color=color
+        ).add_to(m)
+
+    # Create a legend for the colors
+    legend_html = """
+        <div style="position: fixed;
+                    bottom: 50px; left: 50px; width: 120px; height: 130px;
+                    border:2px solid grey; z-index:9999; font-size:12px;
+                    background-color:white;
+                    ">&nbsp;<b> Legend:PM<sub>2.5</sub> </b><br>
+                      &nbsp; HH Cluster&nbsp; <i class="fa fa-circle" style="color:red"></i><br>
+                      &nbsp; LH Cluster&nbsp; <i class="fa fa-circle" style="color:green"></i><br>
+                      &nbsp; LL Cluster&nbsp; <i class="fa fa-circle" style="color:blue"></i><br>
+                      &nbsp; HL Cluster&nbsp; <i class="fa fa-circle" style="color:purple"></i><br>
+                      &nbsp; Not Significant &nbsp; <i class="fa fa-circle" style="color:grey"></i>
+        </div>
+    """
+
+    # Create a folium.element.MacroElement with the legend HTML
+    m.get_root().html.add_child(folium.Element(legend_html))
+
+    # Save the map to an HTML file for viewing
+    m.save('Local_Moran_I_cluster_map.html')  
+
+    # Display the map
+    return m

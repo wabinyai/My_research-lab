@@ -1,9 +1,9 @@
-from utils import fetch_data_from_api, get_data_for_moran, moran_local_regression, plot_moran_local
+from utils import fetch_data_from_api, get_data_for_moran, moran_local_regression, plot_moran_local, plot_folium_map
 from datetime import datetime
 from datetime import timedelta
 
 # Specify the airqloud_id
-grid_id = "64b7a261d7249f0029fec88a"
+grid_id = "64d635f18f492b0013406c46"
 start_time = datetime(2023, 10, 5, 9, 0, 0)
 end_time = datetime(2023, 11, 5, 9, 0, 0)
 page = 1
@@ -21,7 +21,10 @@ if data:
         print(gdf.info())
     # Calculate Local Moran's I
         moran_loc = moran_local_regression(gdf)
+        plot_folium_map(moran_loc, gdf)
+        print("Local Moran's I save in cluster_map.html")
         plot_moran_local(moran_loc, gdf)
+        
 
     else:
          print("No measurements for this search.")
