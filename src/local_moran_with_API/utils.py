@@ -37,15 +37,16 @@ def get_data_for_moran(data):
     for measurement in data['measurements']:
         pm2_5 = measurement.get('pm2_5', {})
         calibrated_value = pm2_5.get('calibratedValue')
+        if calibrated_value is None:
+                calibrated_value = pm2_5.get('value')
         latitude = measurement['siteDetails']['approximate_latitude']
         longitude = measurement['siteDetails']['approximate_longitude']
         features.append({'calibratedValue': calibrated_value, 'latitude': latitude, 'longitude': longitude})
-
         feature = pd.DataFrame(features)
         feature= feature.groupby(['latitude', 'longitude'])['calibratedValue'].mean().reset_index()
     # Create a GeoDataFrame
     gdf = gpd.GeoDataFrame(features, geometry=gpd.points_from_xy([f['longitude'] for f in features], [f['latitude'] for f in features]))
-    return gdf  # Return the GeoDataFrame
+    return gdf  
 
 def moran_local_regression(gdf):
     w = libpysal.weights.DistanceBand.from_dataframe(gdf, threshold=100, binary=True)
