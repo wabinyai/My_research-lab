@@ -8,12 +8,12 @@ import matplotlib.pyplot as plt
 from configure import Config
 from pysal.explore import esda
 
-def fetch_data_from_api(airqloud_id, start_time, end_time, page  ) -> list:
+def fetch_data_from_api(grid_id, start_time, end_time, page  ) -> list:
     # Convert start_time and end_time to ISO format
     start_time_iso = start_time.isoformat() + 'Z'
     end_time_iso = end_time.isoformat() + 'Z'
     
-    airqloud_params = {
+    grid_params = {
         "token": Config.AIRQO_API_TOKEN,
         "startTime": start_time_iso,
         "endTime": end_time_iso,
@@ -21,11 +21,11 @@ def fetch_data_from_api(airqloud_id, start_time, end_time, page  ) -> list:
         "page": page
     }
     
-    airqloud_url = f"https://platform.airqo.net/api/v2/devices/measurements/airqlouds/{airqloud_id}"
+    grid_url = f"https://platform.airqo.net/api/v2/devices/measurements/grids/{grid_id}"
      
-    airqloud_response = requests.get(airqloud_url, params=airqloud_params)
-    if airqloud_response.status_code == 200:
-        data = airqloud_response.json()
+    grid_response = requests.get(grid_url, params=grid_params)
+    if grid_response.status_code == 200:
+        data = grid_response.json()
         return data
     else:
         # Handle the response error, e.g., raise an exception or return an empty list
