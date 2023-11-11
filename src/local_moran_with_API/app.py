@@ -7,7 +7,7 @@ app = Flask(__name__)
 @app.route('/')
 def index():
     # Specify the airqloud_id
-    grid_id = "64b7baccf2b99f00296acd59"
+    grid_id = "64b7b810d7249f0029fecda9"
     start_time = datetime(2023, 10, 5, 9, 0, 0)
     end_time = datetime(2023, 11, 5, 9, 0, 0)
     page = 1
