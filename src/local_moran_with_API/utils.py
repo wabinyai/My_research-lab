@@ -111,7 +111,7 @@ def plot_folium_map(moran_loc, gdf):
     m.get_root().html.add_child(folium.Element(legend_html))
 
     # Save the map to an HTML file for viewing
-    m.save('Local_Moran_I_cluster_map.html')  
+    #m.save('Local_Moran_I_cluster_map.html')  
 
     # Display the map
     return m
