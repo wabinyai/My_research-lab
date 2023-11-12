@@ -1,6 +1,6 @@
 from flask import Flask, render_template, request
 from utils import fetch_data_from_api, get_data_for_moran, moran_local_regression, plot_folium_map
-from datetime import datetime, timedelta
+from datetime import datetime
 
 app = Flask(__name__)
 
@@ -13,11 +13,8 @@ def index():
     else:
         # Specify the airqloud_id
         grid_id = "64b7baccf2b99f00296acd59"
-        start_time = datetime.now() - timedelta(days=7)
-        start_time = start_time.replace(hour=0, minute=0, second=0)  # Adjust the time if needed
-
-        end_time = datetime.now()
-        end_time = end_time.replace(hour=0, minute=0, second=0)  # Adjust the time if needed
+        start_time = datetime(2023, 10, 5, 9, 0, 0)
+        end_time = datetime(2023, 11, 5, 9, 0, 0)
 
     page = 1
 
