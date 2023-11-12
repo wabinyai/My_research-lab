@@ -65,7 +65,7 @@ def plot_moran_local(moran_loc, gdf):
 def plot_folium_map(moran_loc, gdf):
     # Create a Folium map
     gdf['cluster_category'] = ['HH' if c == 1 else 'LH' if c == 2 else 'LL' if c == 3 else 'HL' if c == 4 else 'NS' for c in moran_loc.q]
-    m = folium.Map(location=[gdf['latitude'].mean(), gdf['longitude'].mean()], tiles='Stamen Terrain', zoom_start=12)
+    m = folium.Map(location=[gdf['latitude'].mean(), gdf['longitude'].mean()],  zoom_start=12)
 
     # Define a smaller radius for the circle markers
     circle_radius = 5  # Adjust this value as needed to reduce the size of the circles

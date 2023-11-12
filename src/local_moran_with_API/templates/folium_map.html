@@ -14,28 +14,30 @@
     // Include markers based on cluster categories
     {% for index, row in gdf.iterrows() %}
         var category = '{{ row["cluster_category"] }}';
-        var color;
-
-        if (category === 'HH') {
-            color = 'red';
-        } else if (category === 'LH') {
-            color = 'green';
-        } else if (category === 'LL') {
-            color = 'blue';
-        } else if (category === 'HL') {
-            color = 'purple';
-        } else {
-            color = 'grey';
-        }
+        var color = category === 'HH' ? 'red' : (category === 'LH' ? 'green' : (category === 'LL' ? 'blue' : (category === 'HL' ? 'purple' : 'grey')));
 
         L.circleMarker([{{ row["latitude"] }}, {{ row["longitude"] }}], {radius: 5, color: color, fill: true, fillColor: color}).addTo(mymap);
     {% endfor %}
 
     // Include the legend
+    var legend_html = `
+        <div style="position: fixed;
+                    bottom: 50px; left: 50px; width: 120px; height: 130px;
+                    border:2px solid grey; z-index:9999; font-size:12px;
+                    background-color:white;
+                    ">&nbsp;<b> Legend:PM<sub>2.5</sub> </b><br>
+                      &nbsp; HH Cluster&nbsp; <i class="fa fa-circle" style="color:red"></i><br>
+                      &nbsp; LH Cluster&nbsp; <i class="fa fa-circle" style="color:green"></i><br>
+                      &nbsp; LL Cluster&nbsp; <i class="fa fa-circle" style="color:blue"></i><br>
+                      &nbsp; HL Cluster&nbsp; <i class="fa fa-circle" style="color:purple"></i><br>
+                      &nbsp; Not Significant &nbsp; <i class="fa fa-circle" style="color:grey"></i>
+        </div>
+    `;
+
     var legend = L.control({position: 'bottomleft'});
     legend.onAdd = function (map) {
         var div = L.DomUtil.create('div', 'info legend');
-        div.innerHTML = '{{ legend_html|safe }}';
+        div.innerHTML = legend_html;
         return div;
     };
     legend.addTo(mymap);
