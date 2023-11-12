@@ -18,6 +18,8 @@ Local Moran’s I is a local spatial autocorrelation statistic proposed by Ansel
 identify local clusters and outliers. In python this function is realized by the Cluster and Outlier
 Analysis (Anselin Local Moran’s I) tool. The local Moran’s I is given as Eq:
 
-![local_moran](image-1.png)
+ 
+![local_moran](Local_Moran.png)
 
-![Local Moran UI](image-2.png)
+
+![Local Moran UI](local_moran_I_UI.png)
