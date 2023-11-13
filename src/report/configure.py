@@ -1,8 +1,10 @@
 import os
+from pathlib import Path
 from dotenv import load_dotenv
 
-load_dotenv()
+BASE_DIR = Path(__file__).resolve().parent
+dotenv_path = os.path.join(BASE_DIR, ".env")
+load_dotenv(dotenv_path)
 
-# Set the environment variable for GOOGLE_APPLICATION_CREDENTIALS
-os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = "google_application_credentials.json"
-BIGQUERY_CONSOLIDATED_DATA = os.getenv("BIGQUERY_CONSOLIDATED_DATA")
+class Config:
+    AIRQO_API_TOKEN = os.getenv("AIRQO_API_TOKEN")

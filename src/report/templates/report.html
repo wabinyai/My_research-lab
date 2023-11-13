@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="static/style.css"> <!-- Replace with your actual CSS file -->
+    <title>AirQuality Report</title>
+</head>
+
+<body>
+    <div class="container">
+        <h1>AirQuality Report</h1>
+        <p>Month under study: {{ report_data[0] }}</p>
+        <p>Mean PM2.5 value: {{ report_data[1] }}</p>
+
+        <h2>Top 5 Locations with Highest PM2.5</h2>
+        <ul>
+            {% for location in report_data[2].iteritems() %}
+                <li>{{ location[0] }}: {{ location[1] }}</li>
+            {% endfor %}
+        </ul>
+
+        <h2>Bottom 3 Locations with Lowest PM2.5</h2>
+        <ul>
+            {% for location in report_data[3].iteritems() %}
+                <li>{{ location[0] }}: {{ location[1] }}</li>
+            {% endfor %}
+        </ul>
+
+        <p>Trend: {{ report_data[4] }}</p>
+        <p>Health advice: {{ report_data[5] }}</p>
+        <p>Reasons for trend change: {{ report_data[6] }}</p>
+    </div>
+
+    <script src="static/script.js"></script> <!-- Replace with your actual JavaScript file -->
+</body>
+
+</html>
