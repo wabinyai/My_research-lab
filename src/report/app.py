@@ -11,7 +11,7 @@ def index():
         grid_id = request.form['grid_id']
         start_time = request.form['start_time']
         end_time = request.form['end_time'] 
-        page =1
+        page = 1
 
         air_quality_data = fetch_air_quality_data(grid_id, start_time, end_time,page)
         report_data = generate_report(air_quality_data)
