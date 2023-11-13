@@ -31,4 +31,5 @@ ENV AIRQLOUD_ID "Your_Airqloud_ID_Here"
 CMD ["python", "main.py"]
 
 
+
 docker build -t local-moran .
