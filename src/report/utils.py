@@ -1,15 +1,11 @@
-import json
 from datetime import datetime
-import libpysal
-import geopandas as gpd
 import pandas as pd
 import requests
 import matplotlib.pyplot as plt
 from configure import Config
-from pysal.explore import esda
-import folium
+ 
 
-def fetch_data_from_api(grid_id, start_time, end_time, page  ) -> list:
+def fetch_air_quality_data(grid_id, start_time, end_time, page  ) -> list:
     # Convert start_time and end_time to ISO format
     start_time_iso = start_time.isoformat() + 'Z'
     end_time_iso = end_time.isoformat() + 'Z'
