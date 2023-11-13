@@ -19,9 +19,12 @@ document.querySelector('form').addEventListener('submit', function (event) {
     const formData = new FormData(this);
 
     // Make an AJAX request
-    fetch('/api/endpoint', {
+    fetch('/', {
         method: 'POST',
         body: formData,
+        headers: {
+            'Content-Type': 'application/json', // Add headers if required
+        },
     })
         .then(response => response.json())
         .then(data => {
