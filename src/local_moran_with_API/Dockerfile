@@ -32,4 +32,4 @@ CMD ["python", "main.py"]
 
 
 
-docker build -t local-moran .
+#docker build -t local-moran .
