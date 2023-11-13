@@ -2,7 +2,7 @@ flask
 pandas
 geopandas
 matplotlib
-pysal
+#pysal
 libpysal
 requests
 python-dotenv
