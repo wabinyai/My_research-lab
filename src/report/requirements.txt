@@ -1,13 +1,5 @@
-pandas
-numpy
-matplotlib
-seaborn
-datetime
-requests
-pytz
-geopandas
-folium
-branca
-google-cloud-bigquery 
-python-dotenv
 flask
+pandas
+matplotlib
+requests
+reportlab
