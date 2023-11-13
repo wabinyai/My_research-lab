@@ -15,7 +15,7 @@ SHELL ["/bin/bash", "-c"]
 RUN source venv/bin/activate
 
 # (Windows) Uncomment the line below and comment out the above two lines
-# RUN venv\scripts\activate
+ RUN venv\scripts\activate
 
 # Upgrade pip and install dependencies
 RUN python -m pip install --upgrade pip
@@ -29,3 +29,7 @@ ENV AIRQLOUD_ID "Your_Airqloud_ID_Here"
 
 # Command to run the application
 CMD ["python", "main.py"]
+
+
+
+docker build -t local-moran .
