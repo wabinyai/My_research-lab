@@ -19,7 +19,8 @@ identify local clusters and outliers. In python this function is realized by the
 Analysis (Anselin Local Moran’s I) tool. The local Moran’s I is given as Eq:
 
  
+ Visual you run["python main.py"]
 ![local_moran](Local_Moran.png)
 
-
+Visual you run["python app.py" or "flask run"]
 ![Local Moran UI](local_moran_I_UI.png)
