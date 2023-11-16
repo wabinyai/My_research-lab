@@ -46,5 +46,15 @@ def index():
         print("Failed to fetch data from the API.")
         return "Failed to fetch data from the API."
 
+@app.errorhandler(404)
+def page_not_found(e):
+    return render_template('error.html', error_message="Page not found"), 404
+
+# Custom error handler for general exceptions
+@app.errorhandler(Exception)
+def handle_exception(e):
+    return render_template('error.html', error_message=str(e)), 500
+
 if __name__ == '__main__':
     app.run(debug=True)
+ 
