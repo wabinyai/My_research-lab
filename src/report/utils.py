@@ -27,21 +27,52 @@ def fetch_air_quality_data(grid_id, start_time, end_time, page  ) -> list:
     else:
         # Handle the response error, e.g., raise an exception or return an empty list
         return []
-    
 
-def generate_report(data):
+
+def read_air_quality_data(data):
+    measurements = data.get("measurements", [])
+
+    result = []
+    for measurement in measurements:
+        device = measurement.get("device")
+        device_id = measurement.get("device_id")
+        site_id = measurement.get("site_id")
+        time = measurement.get("time")
+        frequency = measurement.get("frequency")
+        
+        pm2_5_value = measurement.get("pm2_5", {}).get("value")
+        pm10_value = measurement.get("pm10", {}).get("value")
+
+        site_details = measurement.get("siteDetails", {})
+        site_name = site_details.get("formatted_name")
+        district = site_details.get("district")
+        county = site_details.get("county")
+        region = site_details.get("region")
+        country = site_details.get("country")
+
+        latitude = site_details.get("approximate_latitude")
+        longitude = site_details.get("approximate_longitude")
+
+        result.append({
+            "time": time,
+            "frequency": frequency,
+            "device": device,
+            "device_id": device_id,
+            "site_id": site_id,
+            "pm2_5_value": pm2_5_value,
+            "pm10_value": pm10_value,
+            "site_name": site_name,
+            "latitude": latitude,
+            "longitude": longitude,
+            "district": district,
+            "county": county,
+            "region": region,
+            "country": country
+        })
+
+    return result
+
+def calculate_average_pm2_5_by_site(data):
     df = pd.DataFrame(data)
-    month_under_study = pd.to_datetime(df['time']).dt.month_name().unique()[0]
-    mean_pm25 = df['pm2_5']['value'].mean()
-    top_locations = df.groupby('siteDetails.formatted_name')['pm2_5']['value'].mean().nlargest(5)
-    bottom_locations = df.groupby('siteDetails.formatted_name')['pm2_5']['value'].mean().nsmallest(3)
-    trend = "Increasing" if df['pm2_5']['value'].diff().mean() > 0 else "Decreasing"
-
-    if trend == "Increasing":
-        health_advice = "Take precautions, as air quality is worsening."
-        reasons = "Possible reasons for the increase include industrial activities, wildfires, or vehicular emissions."
-    else:
-        health_advice = "Good news! Air quality is improving."
-        reasons = "Possible reasons for the decrease include reduced industrial activities, improved emissions control, or weather conditions."
-
-    return month_under_study, mean_pm25, top_locations, bottom_locations, trend, health_advice, reasons    
+    avg_pm2_5_by_site = df.groupby("site_name")["pm2_5_value"].mean()
+    return avg_pm2_5_by_site
