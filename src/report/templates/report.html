@@ -1,40 +1,87 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="static/style.css"> <!-- Replace with your actual CSS file -->
-    <title>AirQuality Report</title>
-</head>
+    <title>Air Quality Report</title>
 
+    <!-- Bootstrap CSS link (you may need to adjust the link based on your project structure) -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    
+    <style>
+        body {
+            padding: 20px;
+        }
+
+        h1, h2 {
+            margin-bottom: 20px;
+        }
+
+        table {
+            width: 100%;
+            margin-bottom: 20px;
+        }
+
+        th, td {
+            padding: 10px;
+            text-align: center;
+        }
+
+        th {
+            background-color: #f2f2f2;
+        }
+    </style>
+</head>
 <body>
     <div class="container">
-        <h1>AirQuality Report</h1>
-        <p>Month under study: {{ report_data[0] }}</p>
-        <p>Mean PM2.5 value: {{ report_data[1] }}</p>
+        <h1 class="mt-3">Air Quality Report</h1>
 
-        <h2>Top 5 Locations with Highest PM2.5</h2>
-        <ul>
-            {% for location in report_data[2].iteritems() %}
-                <li>{{ location[0] }}: {{ location[1] }}</li>
-            {% endfor %}
-        </ul>
+        <div class="row">
+            <div class="col-md-6">
+                <h2>Top {{ top_PM_sites.shape[0] }} sites with highest average PM2.5 values:</h2>
+                <table class="table table-bordered">
+                    <thead class="thead-light">
+                        <tr>
+                            <th>PM2.5 Value</th>
+                            <th>Latitude</th>
+                            <th>Longitude</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for index, row in top_PM_sites.iterrows() %}
+                            <tr>
+                                <td>{{ row['pm2_5_value'] }}</td>
+                                <td>{{ row['latitude'] }}</td>
+                                <td>{{ row['longitude'] }}</td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
 
-        <h2>Bottom 3 Locations with Lowest PM2.5</h2>
-        <ul>
-            {% for location in report_data[3].iteritems() %}
-                <li>{{ location[0] }}: {{ location[1] }}</li>
-            {% endfor %}
-        </ul>
-
-        <p>Trend: {{ report_data[4] }}</p>
-        <p>Health advice: {{ report_data[5] }}</p>
-        <p>Reasons for trend change: {{ report_data[6] }}</p>
+            <div class="col-md-6">
+                <h2>Least {{ least_PM_sites.shape[0] }} sites with lowest average PM2.5 values:</h2>
+                <table class="table table-bordered">
+                    <thead class="thead-light">
+                        <tr>
+                            <th>PM2.5 Value</th>
+                            <th>Latitude</th>
+                            <th>Longitude</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for index, row in least_PM_sites.iterrows() %}
+                            <tr>
+                                <td>{{ row['pm2_5_value'] }}</td>
+                                <td>{{ row['latitude'] }}</td>
+                                <td>{{ row['longitude'] }}</td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
     </div>
-
-    <script src="static/script.js"></script>  
-    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
 </body>
-
 </html>
