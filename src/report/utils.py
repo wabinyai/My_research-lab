@@ -3,6 +3,7 @@ import pandas as pd
 import requests
 import matplotlib.pyplot as plt
 from configure import Config
+import seaborn as sns
  
 
 def fetch_air_quality_data(grid_id, start_time, end_time, page  ) -> list:
@@ -72,7 +73,13 @@ def read_air_quality_data(data):
 
     return result
 
+ 
+
 def calculate_average_pm2_5_by_site(data):
     df = pd.DataFrame(data)
-    avg_pm2_5_by_site = df.groupby("site_name")["pm2_5_value"].mean()
+    avg_pm2_5_by_site = df.groupby("site_name").agg({
+        "pm2_5_value": "mean",
+        "latitude": "first",   # Assuming latitude is constant for a site
+        "longitude": "first"   # Assuming longitude is constant for a site
+    })
     return avg_pm2_5_by_site
