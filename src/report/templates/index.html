@@ -1,29 +1,34 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="static/style.css"> <!-- Replace with your actual CSS file -->
-    <title>AirQuality Report Generator</title>
+    <title>Air Quality Report Generator</title>
 </head>
-
 <body>
-    <div class="container">
-        <h1>AirQuality Report Generator</h1>
-        <form method="POST" action="/">
-            <label for="grid_id">Grid ID:</label>
-            <input type="text" id="grid_id" name="grid_id" required>
-            <label for="start_time">Start Time:</label>
-            <input type="datetime-local" id="start_time" name="start_time" required>
-            <label for="end_time">End Time:</label>
-            <input type="datetime-local" id="end_time" name="end_time" required>
-            <button type="submit">Generate Report</button>
-        </form>
-    </div>
-
-    <script src="static/script.js"></script>  
-    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+    <h1>Air Quality Report Generator</h1>
+    <form method="POST" action="/">
+        <label for="grid_id">Grid ID:</label>
+        <input type="text" id="grid_id" name="grid_id" required>
+        
+        <label for="start_time">Start Time:</label>
+        <input type="datetime-local" id="start_time" name="start_time" required>
+        
+        <label for="end_time">End Time:</label>
+        <input type="datetime-local" id="end_time" name="end_time" required>
+        
+        <label for="top_location">Top Locations:</label>
+        <input type="number" id="top_location" name="top_location" required>
+        
+        <label for="least_location">Least Locations:</label>
+        <input type="number" id="least_location" name="least_location" required>
+        
+        <button type="submit">Generate Report</button>
+    </form>
+    
+    {% if message %}
+        <p>{{ message }}</p>
+    {% endif %}
 </body>
-
 </html>
