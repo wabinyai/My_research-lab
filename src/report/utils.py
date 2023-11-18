@@ -73,8 +73,6 @@ def read_air_quality_data(data):
 
     return result
 
- 
-
 def calculate_average_pm2_5_by_site(data):
     df = pd.DataFrame(data)
     avg_pm2_5_by_site = df.groupby("site_name").agg({
