@@ -3,7 +3,6 @@ import pandas as pd
 import requests
 import matplotlib.pyplot as plt
 from configure import Config
-import seaborn as sns
  
 
 def fetch_air_quality_data(grid_id, start_time, end_time, page  ) -> list:
