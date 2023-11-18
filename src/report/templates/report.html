@@ -43,6 +43,7 @@
                 <table class="table table-bordered">
                     <thead class="thead-light">
                         <tr>
+                            <th>Site Name</th>
                             <th>PM2.5 Value</th>
                             <th>Latitude</th>
                             <th>Longitude</th>
@@ -51,6 +52,7 @@
                     <tbody>
                         {% for index, row in top_PM_sites.iterrows() %}
                             <tr>
+                                <td>{{ row['site_name'] }}</td>
                                 <td>{{ row['pm2_5_value'] }}</td>
                                 <td>{{ row['latitude'] }}</td>
                                 <td>{{ row['longitude'] }}</td>
@@ -65,6 +67,7 @@
                 <table class="table table-bordered">
                     <thead class="thead-light">
                         <tr>
+                            <th>Site Name</th>
                             <th>PM2.5 Value</th>
                             <th>Latitude</th>
                             <th>Longitude</th>
@@ -73,6 +76,7 @@
                     <tbody>
                         {% for index, row in least_PM_sites.iterrows() %}
                             <tr>
+                                <td>{{ row['site_name'] }}</td>
                                 <td>{{ row['pm2_5_value'] }}</td>
                                 <td>{{ row['latitude'] }}</td>
                                 <td>{{ row['longitude'] }}</td>
