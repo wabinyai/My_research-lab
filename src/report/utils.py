@@ -81,5 +81,9 @@ def calculate_average_pm2_5_by_site(data):
         "pm2_5_value": "mean",
         "latitude": "first",   # Assuming latitude is constant for a site
         "longitude": "first"   # Assuming longitude is constant for a site
-    })
+    }).reset_index()  # Resetting the index
+
+    # Round specified columns to two decimal places
+    avg_pm2_5_by_site[["pm2_5_value", "latitude", "longitude"]] = avg_pm2_5_by_site[["pm2_5_value", "latitude", "longitude"]].round(2)
+
     return avg_pm2_5_by_site
