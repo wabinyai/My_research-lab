@@ -35,7 +35,8 @@
 </head>
 <body>
     <div class="container">
-        <h1 class="mt-3">Air Quality Report</h1>
+        <h1 class="mt-3">Air Quality Report for Grid ID: {{ grid_id }} - Month: {{ month }} </h1>
+        <h2 class="mt-3"> - Start Time: {{ startTime }} - End Time: {{ endTime }}</h2>
 
         <div class="row">
             <div class="col-md-6">
@@ -45,8 +46,7 @@
                         <tr>
                             <th>Site Name</th>
                             <th>PM2.5 Value</th>
-                            <th>Latitude</th>
-                            <th>Longitude</th>
+                            <th>PM10 Value</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -54,8 +54,7 @@
                             <tr>
                                 <td>{{ row['site_name'] }}</td>
                                 <td>{{ row['pm2_5_value'] }}</td>
-                                <td>{{ row['latitude'] }}</td>
-                                <td>{{ row['longitude'] }}</td>
+                                <td>{{ row['pm10_value'] }}</td>
                             </tr>
                         {% endfor %}
                     </tbody>
@@ -69,8 +68,8 @@
                         <tr>
                             <th>Site Name</th>
                             <th>PM2.5 Value</th>
-                            <th>Latitude</th>
-                            <th>Longitude</th>
+                            <th>PM10 Value</th>
+
                         </tr>
                     </thead>
                     <tbody>
@@ -78,8 +77,8 @@
                             <tr>
                                 <td>{{ row['site_name'] }}</td>
                                 <td>{{ row['pm2_5_value'] }}</td>
-                                <td>{{ row['latitude'] }}</td>
-                                <td>{{ row['longitude'] }}</td>
+                                <td>{{ row['pm10_value'] }}</td>
+  
                             </tr>
                         {% endfor %}
                     </tbody>
