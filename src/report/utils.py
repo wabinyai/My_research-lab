@@ -37,8 +37,16 @@ def read_air_quality_data(data):
         device = measurement.get("device")
         device_id = measurement.get("device_id")
         site_id = measurement.get("site_id")
-        time = measurement.get("time")
+
+        time_str = measurement.get("time")
         frequency = measurement.get("frequency")
+
+                # Extracting date, year, day, and month from the time field
+        time_dt = datetime.strptime(time_str, "%Y-%m-%dT%H:%M:%S.%fZ")
+        date = time_dt.date()
+        year = time_dt.year
+        day = time_dt.day
+        month = time_dt.month
         
         pm2_5_value = measurement.get("pm2_5", {}).get("value")
         pm10_value = measurement.get("pm10", {}).get("value")
@@ -54,7 +62,11 @@ def read_air_quality_data(data):
         longitude = site_details.get("approximate_longitude")
 
         result.append({
-            "time": time,
+            "time": time_str,
+            "date": date,
+            "year": year,
+            "day": day,
+            "month": month,
             "frequency": frequency,
             "device": device,
             "device_id": device_id,
@@ -76,11 +88,25 @@ def calculate_average_pm2_5_by_site(data):
     df = pd.DataFrame(data)
     avg_pm2_5_by_site = df.groupby("site_name").agg({
         "pm2_5_value": "mean",
+        "pm10_value": "mean",
         "latitude": "first",   # Assuming latitude is constant for a site
-        "longitude": "first"   # Assuming longitude is constant for a site
+        "longitude": "first",   # Assuming longitude is constant for a site
     }).reset_index()  # Resetting the index
 
     # Round specified columns to two decimal placess
-    avg_pm2_5_by_site[["pm2_5_value", "latitude", "longitude"]] = avg_pm2_5_by_site[["pm2_5_value", "latitude", "longitude"]].round(2)
+    avg_pm2_5_by_site[["pm2_5_value","pm10_value",  "latitude", "longitude"]] = avg_pm2_5_by_site[["pm2_5_value", "pm10_value","latitude", "longitude"]].round(2)
 
     return avg_pm2_5_by_site
+
+def calculate_monthly_average_pm2_5(data):
+    df = pd.DataFrame(data)
+    df = df.dropna()
+    month_average = df.groupby("month").agg({
+        "pm2_5_value": "mean",
+        "pm10_value": "mean"
+    }).reset_index()  # Resetting the index
+    # Sort by month in ascending order
+    month_average = month_average.sort_values(by="month")
+
+    return month_average
+

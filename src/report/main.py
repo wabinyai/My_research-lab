@@ -1,10 +1,10 @@
-from utils import fetch_air_quality_data, read_air_quality_data, calculate_average_pm2_5_by_site
+from utils import fetch_air_quality_data, read_air_quality_data, calculate_average_pm2_5_by_site, calculate_monthly_average_pm2_5
 from datetime import datetime
 
 # Specify the airqloud_id
-grid_id = "64d6348a5684130013803290"
-start_time = datetime(2023, 10, 5, 9, 0, 0)
-end_time = datetime(2023, 11, 5, 9, 0, 0)
+grid_id = "6542358ddcd81300139b4c1b"
+start_time = datetime(2023, 8, 1, 9, 0, 0)
+end_time = datetime(2023, 9, 30, 9, 0, 0)
 page = 1
 top_location = 6
 least_location = 2
@@ -31,5 +31,10 @@ if data:
     print(f"\nLeast {least_location} sites with lowest average PM2.5 values:")
     print(least_PM_sites)
 
+    print(f"\nLeast monthly sites with lowest average PM2.5 values:")
+    monthly_avg_pm2_5 = calculate_monthly_average_pm2_5(air_quality_data)
+    print(monthly_avg_pm2_5)
+
 else:
     print("No data available for the specified time range.")
+
