@@ -1,13 +1,13 @@
-from utils import fetch_air_quality_data, read_air_quality_data, calculate_average_pm2_5_by_site, calculate_monthly_average_pm2_5
+from utils import fetch_air_quality_data, read_air_quality_data, calculate_average_pm2_5_by_site, calculate_monthly_average_pm2_5,month_unique
 from datetime import datetime
 
 # Specify the airqloud_id
 grid_id = "6542358ddcd81300139b4c1b"
-start_time = datetime(2023, 8, 1, 9, 0, 0)
-end_time = datetime(2023, 9, 30, 9, 0, 0)
+start_time = datetime(2023, 7, 1, 9, 0, 0)
+end_time = datetime(2023, 10, 30, 9, 0, 0)
 page = 1
 top_location = 6
-least_location = 2
+least_location = 1
 
 # Call the function with the desired start and end times
 data = fetch_air_quality_data(grid_id, start_time, end_time, page)
@@ -35,6 +35,9 @@ if data:
     monthly_avg_pm2_5 = calculate_monthly_average_pm2_5(air_quality_data)
     print(monthly_avg_pm2_5)
 
+    print(f"\nMonths under study:")
+    month_unique_place = month_unique(air_quality_data)
+    print(month_unique_place)
 else:
     print("No data available for the specified time range.")
 

@@ -110,3 +110,9 @@ def calculate_monthly_average_pm2_5(data):
 
     return month_average
 
+def month_unique(data):
+    df = pd.DataFrame(data)
+    df = df.dropna()
+    monthly_unique = df.month.unique()
+
+    return monthly_unique
