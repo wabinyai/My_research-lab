@@ -1,18 +1,35 @@
-# Byte-compiled / optimized / DLL files
+# Python
 __pycache__/
-*.py[cod]
-*$py.class
+*.pyc
+*.pyo
+*.pyd
 
-
-
-# Environments
-.env
-.venv
-env/
+# Virtual Environment
 venv/
-ENV/
-env.bak/
-venv.bak/
+env/
+*.pyc
+*.pyo
+__pycache__/
 
-# Ignore Visual Studio Code settings
-.vscode/
+# Node.js
+node_modules/
+
+# Dependency directories
+jspm_packages/
+
+# User-specific files
+npm-debug.log
+yarn-error.log
+.idea/
+
+# Compiled source
+/dist/
+/build/
+
+# Logs and databases
+*.log
+*.sqlite
+
+# OS generated files
+.DS_Store
+Thumbs.db

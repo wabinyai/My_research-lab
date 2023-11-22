@@ -16,7 +16,8 @@
 ```flask run```
 ```python app.py```
 
-#
+## npm
+npm install leaflet react react-dom babel-standalone leaflet-geosearch
 
 ## Running the model with Docker
 ### Build the image
