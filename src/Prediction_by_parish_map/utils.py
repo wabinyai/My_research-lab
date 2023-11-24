@@ -44,3 +44,4 @@ def get_grouped_data_for_pm(data):
     feature_df = pd.DataFrame(features)
     gdf = gpd.GeoDataFrame(feature_df, geometry=gpd.points_from_xy(feature_df['longitude'], feature_df['latitude']))
     return gdf
+
