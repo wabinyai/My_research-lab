@@ -19,7 +19,7 @@ def generate_map(grid_id, start_time, end_time):
     # Add air quality data markers to the map
     for _, row in df_u2.iterrows():
         folium.CircleMarker([row['latitude'], row['longitude']],
-                            popup=f"Calibrated Value: {round(row['calibratedValue'], 2)}",
+                            popup=f"Site Name: {row['site_name']}, \n Calibrated Value: {round(row['calibratedValue'], 2)}",
                             radius=10,
                             color=linear(row.calibratedValue),  # Change this to your color logic
                             fill=True,
