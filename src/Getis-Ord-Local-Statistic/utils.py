@@ -68,7 +68,7 @@ def Getis_Ord_Local_regression(gdf):
     significant_cold_spots_90 = (p_values < alpha_90) & (z_scores < 0)
     
     return g_local, significant_hot_spots_99, significant_hot_spots_95, significant_hot_spots_90, significant_cold_spots_99, significant_cold_spots_95, significant_cold_spots_90
- 
+
 def plot_Getis_Ord_local(g_local, significant_hot_spots_99, significant_hot_spots_95, significant_hot_spots_90, significant_cold_spots_99, significant_cold_spots_95, significant_cold_spots_90, gdf):
     fig, ax = plt.subplots(figsize=(10, 10))
     
