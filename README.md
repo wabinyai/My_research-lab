@@ -24,6 +24,5 @@ Analysis (Anselin Local Moran’s I) tool.
 |----------|----------|
 | ![local_moran](Local_Moran.png) | ![Local Moran UI](local_moran_I_UI.png) |
  
-
  
  
