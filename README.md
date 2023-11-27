@@ -12,7 +12,7 @@ Getis-Ord Gi* statistic, is used to measure spatial autocorrelation and identify
 
 |Visual you run["python main.py"] |Visual you run["python app.py" or "flask run"] |
 |----------|----------|
-| ![Getis-Ord Gi ](image.png) | COMING SOON |
+| ![Getis-Ord Gi ](getis_ord.png) | COMING SOON |
 
 [local_moran](https://github.com/wabinyai/My_research-lab/tree/main/src/local_moran_with_API)
 
