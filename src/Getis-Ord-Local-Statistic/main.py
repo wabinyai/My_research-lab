@@ -2,14 +2,14 @@ from utils import fetch_data_from_api, get_data_for_getis, Getis_Ord_Local_regre
 from datetime import datetime
 from datetime import timedelta
 
-# Specify the airqloud_id
-airqloud_id = "64dcc962a21ec10013f104b2"
+# Specify the grid_id
+grid_id = "64b7b654d7249f0029fecd51"
 
 # Usage example:
-start_time = datetime(2023, 9, 1, 9, 0, 0)
-end_time = datetime(2023, 11, 6, 9, 0, 0)
+start_time = datetime(2023, 10, 1, 9, 0, 0)
+end_time = datetime(2023, 11, 20, 9, 0, 0)
 
-data = fetch_data_from_api(airqloud_id, start_time, end_time)
+data = fetch_data_from_api(grid_id, start_time, end_time)
 
 if data:
     # Get the GeoDataFrame with relevant data
