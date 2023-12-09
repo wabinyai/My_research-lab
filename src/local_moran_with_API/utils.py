@@ -7,6 +7,8 @@ import requests
 import matplotlib.pyplot as plt
 from configure import Config
 from pysal.explore import esda
+from libpysal.weights.contiguity import Queen
+from esda.moran import Moran_Local
 import folium
 
 def fetch_data_from_api(grid_id, start_time, end_time, page  ) -> list:
@@ -50,8 +52,9 @@ def get_data_for_moran(data):
     return gdf  
 
 def moran_local_regression(gdf):
-    w = libpysal.weights.DistanceBand.from_dataframe(gdf, threshold=100, binary=True)
-    moran_loc = esda.Moran_Local(gdf['calibratedValue'], w)  # Corrected the column name
+    w = Queen.from_dataframe(gdf)
+    y = gdf['calibratedValue'].values
+    moran_loc = Moran_Local(y, w)
     return moran_loc
 
 def plot_moran_local(moran_loc, gdf):
