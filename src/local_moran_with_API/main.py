@@ -4,8 +4,8 @@ from datetime import timedelta
 
 # Specify the airqloud_id
 grid_id = "64b7ba65d7249f0029fecdbd"
-start_time = datetime(2023, 10, 5, 9, 0, 0)
-end_time = datetime(2023, 11, 5, 9, 0, 0)
+start_time = datetime.now() - timedelta(days=14)
+end_time = datetime.now()
 page = 1
 
 # Call the function with the desired start and end times
