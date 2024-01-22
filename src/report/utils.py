@@ -112,6 +112,18 @@ def calculate_monthly_average_pm2_5(data):
 
     return month_average
 
+def calculate_date_average_pm2_5(data):
+    df = pd.DataFrame(data)
+    df = df.dropna()
+    date_average = df.groupby("date").agg({
+        "pm2_5_value": "mean",
+        "pm10_value": "mean"
+    }).reset_index()  # Resetting the index
+    # Sort by month in ascending order
+    date_average = date_average.sort_values(by="date")
+
+    return date_average
+
 def calculate_yearly_average_pm2_5(data):
     df = pd.DataFrame(data)
     df = df.dropna()
@@ -127,14 +139,14 @@ def calculate_yearly_average_pm2_5(data):
 def calculate_diurnal_average_pm2_5(data):
     df = pd.DataFrame(data)
     df = df.dropna()
-    yearly_average = df.groupby("hour").agg({
+    diurnal_average = df.groupby("hour").agg({
         "pm2_5_value": "mean",
         "pm10_value": "mean"
     }).reset_index()  # Resetting the index
     # Sort by month in ascending order
-    diurnal_average = yearly_average.sort_values(by="hour")
+    diurnal_average = diurnal_average.sort_values(by="hour")
 
-    return yearly_average
+    return diurnal_average
 
 def month_unique(data):
     df = pd.DataFrame(data)
