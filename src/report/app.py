@@ -29,7 +29,7 @@ def get_air_quality_data():
             date_average_pm2_5 = calculate_date_average_pm2_5(air_quality_data)
 
             response_data = {
-                'air_quality_data':{
+                'air_quality':{
                 'grid_id': grid_id,
                 'period': {
                     'startTime': start_time.isoformat(),
