@@ -1,5 +1,5 @@
 from flask import Flask, jsonify, request
-from utils import fetch_air_quality_data, calculate_date_average_pm2_5,read_air_quality_data, calculate_diurnal_average_pm2_5, calculate_average_pm2_5_by_site, calculate_monthly_average_pm2_5, calculate_yearly_average_pm2_5
+from utils import fetch_air_quality_data, calculate_date_average_pm2_5, month_unique,read_air_quality_data, calculate_diurnal_average_pm2_5, calculate_average_pm2_5_by_site, calculate_monthly_average_pm2_5, calculate_yearly_average_pm2_5
 from datetime import datetime
 
 app = Flask(__name__)
@@ -27,15 +27,16 @@ def get_air_quality_data():
             yearly_average_pm2_5 = calculate_yearly_average_pm2_5(air_quality_data)
             diurnal_average_pm2_5 = calculate_diurnal_average_pm2_5(air_quality_data)
             date_average_pm2_5 = calculate_date_average_pm2_5(air_quality_data)
+            months=month_unique(air_quality_data)
 
             response_data = {
-                'air_quality_data':{
+                'air_quality':{
                 'grid_id': grid_id,
                 'period': {
                     'startTime': start_time.isoformat(),
                     'endTime': end_time.isoformat(),
                 },
-                'month': start_time.month,
+                'month': months,
                 'air_quality_data':air_quality_data,
                 'top_PM_sites': top_PM_sites.to_dict(orient='records'),
                 'least_PM_sites': least_PM_sites.to_dict(orient='records'),

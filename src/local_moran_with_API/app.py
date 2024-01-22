@@ -34,7 +34,7 @@ def index():
             plot_folium_map(moran_loc, gdf)
             print("Local Moran's I saved in cluster_map.html")
             # plot_moran_local(moran_loc, gdf)
-
+            print(moran_loc)
             # Render the template with the Folium map and pass the gdf variable
             return render_template('index.html', gdf=gdf)
 
