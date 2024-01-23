@@ -18,7 +18,7 @@ def fetch_air_quality_data(grid_id, start_time, end_time, page  ) -> list:
         "page": page
     }
     
-    grid_url = f"https://platform.airqo.net/api/v2/devices/measurements/grids/{grid_id}"
+    grid_url = f"https://platform.airqo.net/api/v2/devices/measurements/grids/{grid_id}/historical"
      
     grid_response = requests.get(grid_url, params=grid_params)
     if grid_response.status_code == 200:
