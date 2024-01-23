@@ -4,8 +4,8 @@ import json
 url = "http://127.0.0.1:5000/report"
 data = {
     "grid_id": "659d036497e611001236cd1b",
-    'start_time': '2024-01-12T00:00',
-    'end_time': '2024-01-21T00:00',
+    "start_time": "2024-01-12T00:00",
+    "end_time": "2024-01-21T00:00",
 }
 
 headers = {'Content-Type': 'application/json'}  # Set the content type to JSON
