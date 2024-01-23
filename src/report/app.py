@@ -1,5 +1,5 @@
 from flask import Flask, jsonify, request
-from utils import fetch_air_quality_data, calculate_date_average_pm2_5, month_unique,read_air_quality_data, calculate_diurnal_average_pm2_5, calculate_average_pm2_5_by_site, calculate_monthly_average_pm2_5, calculate_yearly_average_pm2_5
+from utils import fetch_air_quality_data, calculate_date_average_pm2_5, read_air_quality_data, calculate_diurnal_average_pm2_5, calculate_average_pm2_5_by_site, calculate_monthly_average_pm2_5, calculate_yearly_average_pm2_5
 from datetime import datetime
 
 app = Flask(__name__)
@@ -12,31 +12,25 @@ def get_air_quality_data():
         start_time = datetime.strptime(data['start_time'], '%Y-%m-%dT%H:%M')
         end_time = datetime.strptime(data['end_time'], '%Y-%m-%dT%H:%M')
         page = 1
-
         air_quality_data = fetch_air_quality_data(grid_id, start_time, end_time, page)
-
+        # If data is available, process and return the results
         if air_quality_data:
             air_quality_data = read_air_quality_data(air_quality_data)
-
             avg_pm2_5_by_site = calculate_average_pm2_5_by_site(air_quality_data)
-
             top_PM_sites = avg_pm2_5_by_site.nlargest(5, "pm2_5_value")
             least_PM_sites = avg_pm2_5_by_site.nsmallest(5, "pm2_5_value")
-
             monthly_average_pm2_5 = calculate_monthly_average_pm2_5(air_quality_data)
             yearly_average_pm2_5 = calculate_yearly_average_pm2_5(air_quality_data)
             diurnal_average_pm2_5 = calculate_diurnal_average_pm2_5(air_quality_data)
             date_average_pm2_5 = calculate_date_average_pm2_5(air_quality_data)
-            months=month_unique(air_quality_data)
-
+            # Prepare the response data in a structured format
             response_data = {
                 'air_quality':{
                 'grid_id': grid_id,
                 'period': {
                     'startTime': start_time.isoformat(),
                     'endTime': end_time.isoformat(),
-                },
-                'month': months,
+                            },                
                 'air_quality_data':air_quality_data,
                 'top_PM_sites': top_PM_sites.to_dict(orient='records'),
                 'least_PM_sites': least_PM_sites.to_dict(orient='records'),
@@ -46,7 +40,7 @@ def get_air_quality_data():
                 'date_average_pm2_5':date_average_pm2_5.to_dict(orient='records'),
             }
             }
-
+             # Return the response data as JSON
             return jsonify(response_data)
         else:
             return jsonify({'message': 'No data available for the specified time range.'})

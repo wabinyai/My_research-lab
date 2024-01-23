@@ -151,6 +151,6 @@ def calculate_diurnal_average_pm2_5(data):
 def month_unique(data):
     df = pd.DataFrame(data)
     df = df.dropna()
-    monthly_unique = df.month.nunique()
+    monthly_unique = df.month.unique()
 
     return monthly_unique
