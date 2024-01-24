@@ -57,3 +57,7 @@ def query_bigquery(site_ids, start_time, end_time):
     # Fetch and return the results
     data = query_job.result()
     return data
+
+
+
+ 
