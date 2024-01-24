@@ -1,0 +1,12 @@
+flask
+pandas
+matplotlib
+requests
+reportlab
+python-dotenv
+google-cloud-bigquery
+google-cloud-storage
+google-cloud-bigquery[pandas] 
+pymongo 
+numpy
+ 
