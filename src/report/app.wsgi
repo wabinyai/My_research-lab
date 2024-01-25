@@ -7,4 +7,4 @@ activate_this = '/src/report/venv/bin/activate'
 with open(activate_this) as file_:
     exec(file_.read(), dict(__file__=activate_this))
 
-from app import app as application
+from app import get_air_quality_data as application
