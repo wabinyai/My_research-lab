@@ -70,11 +70,33 @@ def results_to_dataframe(results):
     df['day'] = df['timestamp'].dt.day_name()
     df['hour'] = df['timestamp'].dt.hour
     df['year'] = df['timestamp'].dt.year
+    df['month'] = df['timestamp'].dt.month
+    df['month_name'] = df['timestamp'].dt.month_name()
+    
 
     return df
 
-def calculate_mean_daily_pm2_5(dataframe):
-    return dataframe.groupby('timestamp')['pm2_5'].mean()
+def mean_daily_pm2_5(dataframe):
+    return dataframe.groupby('timestamp')[['pm2_5','pm2_5_calibrated_value','pm10','pm10_calibrated_value']].mean()
 
-def calculate_mean_pm2_5_by_site_name(dataframe):
-    return dataframe.groupby('site_name')['pm2_5'].mean()
+def mean_pm2_5_by_site_name(dataframe):
+    return dataframe.groupby('site_name')[['pm2_5','pm2_5_calibrated_value','pm10','pm10_calibrated_value','site_latitude', 'site_longitude']].mean()
+
+def mean_pm2_5_by_hour(dataframe):
+    return dataframe.groupby('hour')[['pm2_5','pm2_5_calibrated_value','pm10','pm10_calibrated_value']].mean()
+
+def mean_pm2_5_by_month_year(dataframe):
+    return dataframe.groupby(['month','year'])[['pm2_5','pm2_5_calibrated_value','pm10','pm10_calibrated_value']].mean()
+
+def mean_pm2_5_by_month(dataframe):
+    return dataframe.groupby('month')[['pm2_5','pm2_5_calibrated_value','pm10','pm10_calibrated_value']].mean()
+
+def mean_pm2_5_by_month_name(dataframe):
+    return dataframe.groupby(['month_name'])[['pm2_5','pm2_5_calibrated_value','pm10','pm10_calibrated_value']].mean()
+    
+def mean_pm2_5_by_year(dataframe):
+    return dataframe.groupby('year')[['pm2_5','pm2_5_calibrated_value','pm10','pm10_calibrated_value']].mean()
+
+def mean_pm10_by_month_name(dataframe):
+    return dataframe.groupby('year')[['pm10']].mean().reset_index()
+ 
