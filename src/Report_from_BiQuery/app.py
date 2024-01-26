@@ -49,7 +49,7 @@ def get_air_quality_results():
     }
 
     # Convert the response data to a JSON-formatted string without escape characters
-    json_result = json.dumps(response_data, indent=2, ensure_ascii=False)
+    #json_result = json.dumps(response_data, indent=2, ensure_ascii=False)
 
     # Print the JSON-formatted string
     #print(json_result)

@@ -1,45 +1,34 @@
-from utils import fetch_air_quality_data, query_bigquery
 from datetime import datetime
-import itertools
-import json
+from utils import fetch_air_quality_data, query_bigquery, results_to_dataframe, calculate_mean_daily_pm2_5, calculate_mean_pm2_5_by_site_name
 
-# Specify the airqloud_id
-grid_id = "64b7f325d7249f0029fed743"
-start_time = datetime(2024, 1, 2, 9, 0, 0)
-end_time = datetime(2024, 1, 19, 12, 0, 0)
-page = 1
+def main():
+    grid_id = "64b7f325d7249f0029fed743"
+    start_time = datetime(2023, 12, 26, 9, 0, 0)
+    end_time = datetime(2024, 1, 1, 12, 0, 0)
 
-# Fetch air quality data
-site_ids = fetch_air_quality_data(grid_id, start_time, end_time, page)
+    site_ids = fetch_air_quality_data(grid_id, start_time, end_time)
+    if site_ids:
+        results = query_bigquery(site_ids, start_time, end_time)
+        if results is not None:
+            processed_data = results_to_dataframe(results)
+            daily_mean_pm2_5 = calculate_mean_daily_pm2_5(processed_data)
+            site_mean_pm2_5 = calculate_mean_pm2_5_by_site_name(processed_data)
 
+            # Prepare the response data in a structured format
+            response_data = {
+                'status': 'success',
+                'grid_id': grid_id,
+                'site_ids': site_ids,
+                'period': {
+                    'startTime': start_time.isoformat(),
+                    'endTime': end_time.isoformat(),
+                },
+                'daily_mean_pm2_5': daily_mean_pm2_5.to_dict(),
+                'site_mean_pm2_5': site_mean_pm2_5.to_dict(),
+            }
 
-# Query BigQuery with the retrieved site_ids
-bigquery_results = query_bigquery(site_ids, start_time, end_time)
+            # Print the response data as JSON
+            print(response_data)
 
-# Convert BigQuery results to a list of dictionaries
-result_list = []
-for row in itertools.islice(bigquery_results, 15):
-    # Convert datetime objects to strings
-    row_dict = {key: str(value) if isinstance(value, datetime) else value for key, value in row.items()}
-    result_list.append(row_dict)
-
-# Create response data dictionary
-response_data = {
-    'measurements':{
-    'status': 'success',
-    'meta': {
-        'grid_id': grid_id,
-        'period': {
-            'startTime': start_time.isoformat(),
-            'endTime': end_time.isoformat(),
-        },
-        'value': result_list,
-    }
-}
-}
-
-# Convert the response data to a JSON-formatted string
-json_result = json.dumps(response_data, indent=2)
-
-# Print the JSON-formatted string
-print(json_result)
+if __name__ == "__main__":
+    main()
