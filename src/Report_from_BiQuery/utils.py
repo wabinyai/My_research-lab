@@ -6,6 +6,9 @@ from google.cloud import bigquery
 from google.oauth2 import service_account
 from configure import Config
 
+from timezonefinder import TimezoneFinder
+import pytz
+
 def fetch_air_quality_data(grid_id, start_time, end_time) -> list:
     # Convert start_time and end_time to ISO format
     start_time_iso = start_time.isoformat() + 'Z'
@@ -55,10 +58,25 @@ def query_bigquery(site_ids, start_time, end_time):
 
         # Fetch and return the results as a Pandas DataFrame
         data = query_job.to_dataframe()
+                # Convert timestamp to local time based on latitude and longitude
+        data['timestamp'] = convert_utc_to_local(data['timestamp'], data['site_latitude'], data['site_longitude'])
+
         return data
     except Exception as e:
         print(f"Error querying BigQuery: {e}")
         return None
+    
+def convert_utc_to_local(timestamps,site_latitude, site_longitude):
+    tf = TimezoneFinder()
+    local_times = []
+
+    for timestamp, latitude, longitude in zip(timestamps, site_latitude, site_longitude):
+        timezone_str = tf.timezone_at(lat=latitude, lng=longitude)
+        timezone = pytz.timezone(timezone_str)
+        local_time = timestamp.astimezone(timezone)
+        local_times.append(local_time)
+
+    return local_times
 
 def results_to_dataframe(results):
     # Convert 'timestamp' to datetime format
