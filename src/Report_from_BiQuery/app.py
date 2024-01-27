@@ -47,7 +47,7 @@ def air_quality_data():
 
             # Prepare the response data in a structured format
             response_data = {
-                'airquality': 'air_quality',
+                'airquality': {
                 'status': 'success',
                 'grid_id': grid_id,
                 'site_ids': site_ids,
@@ -67,6 +67,7 @@ def air_quality_data():
                 'mean_pm_by_city': mean_pm_by_city.to_dict(orient='records'),   
                 'mean_pm_by_country': mean_pm_by_country.to_dict(orient='records'),
                 'mean_pm_by_region': mean_pm_by_region.to_dict(orient='records'),
+                }
 
             }
 
