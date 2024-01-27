@@ -85,6 +85,9 @@ def mean_daily_pm2_5(dataframe):
 def mean_pm2_5_by_site_name(dataframe):
     return dataframe.groupby('site_name')[['pm2_5_raw_value','pm2_5_calibrated_value','pm10_raw_value','pm10_calibrated_value','site_latitude', 'site_longitude']].mean().reset_index()
  
+def monthly_mean_pm_site_name(dataframe):
+    return dataframe.groupby(['site_name','month','year'])[['pm2_5_raw_value','pm2_5_calibrated_value','pm10_raw_value','pm10_calibrated_value','site_latitude', 'site_longitude']].mean().reset_index()
+ 
 
 def mean_pm2_5_by_hour(dataframe):
     return dataframe.groupby('hour')[['pm2_5_raw_value','pm2_5_calibrated_value','pm10_raw_value','pm10_calibrated_value']].mean().reset_index()
@@ -100,6 +103,15 @@ def mean_pm2_5_by_month_name(dataframe):
     
 def mean_pm2_5_by_year(dataframe):
     return dataframe.groupby('year')[['pm2_5_raw_value','pm2_5_calibrated_value','pm10_raw_value','pm10_calibrated_value']].mean().reset_index()
+
+def pm_by_city(dataframe):
+    return dataframe.groupby(['city','month','year'])[['pm2_5_raw_value','pm2_5_calibrated_value','pm10_raw_value','pm10_calibrated_value']].mean().reset_index()
+
+def pm_by_country(dataframe):
+    return dataframe.groupby('country')[['pm2_5_raw_value','pm2_5_calibrated_value','pm10_raw_value','pm10_calibrated_value']].mean().reset_index()
+
+def pm_by_region(dataframe):
+    return dataframe.groupby('region')[['pm2_5_raw_value','pm2_5_calibrated_value','pm10_raw_value','pm10_calibrated_value']].mean().reset_index()
 
  
  

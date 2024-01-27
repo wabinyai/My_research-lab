@@ -12,4 +12,3 @@ class Config:
     BIGQUERY_HOURLY_DATA = os.getenv("BIGQUERY_HOURLY_DATA")
     AIRQO_API_TOKEN = os.getenv("AIRQO_API_TOKEN")
     DEVICE_REGISTRY_URL = os.getenv("DEVICE_REGISTRY_URL")
- 
