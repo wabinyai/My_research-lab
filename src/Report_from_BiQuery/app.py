@@ -1,7 +1,7 @@
 from flask import Flask, request, jsonify
 from datetime import datetime
 import logging
-from utils import fetch_air_quality_data, datetime_pm2_5, mean_pm2_5_by_month_year, mean_pm2_5_by_month_name, query_bigquery, mean_pm2_5_by_month, results_to_dataframe, mean_pm2_5_by_year, mean_daily_pm2_5, mean_pm2_5_by_site_name, mean_pm2_5_by_hour
+from utils import fetch_air_quality_data, pm_by_city,pm_by_country,pm_by_region, monthly_mean_pm_site_name,datetime_pm2_5, mean_pm2_5_by_month_year, mean_pm2_5_by_month_name, query_bigquery, mean_pm2_5_by_month, results_to_dataframe, mean_pm2_5_by_year, mean_daily_pm2_5, mean_pm2_5_by_site_name, mean_pm2_5_by_hour
 
 app = Flask(__name__)
 
@@ -37,6 +37,10 @@ def air_quality_data():
             pm2_5_by_month = mean_pm2_5_by_month(processed_data)
             pm2_5_by_month_name = mean_pm2_5_by_month_name(processed_data)
             pm2_5_by_month_year = mean_pm2_5_by_month_year(processed_data)
+            monthly_mean_pm_by_site_name =  monthly_mean_pm_site_name(processed_data)
+            mean_pm_by_city=pm_by_city(processed_data)
+            mean_pm_by_country =pm_by_country(processed_data)
+            mean_pm_by_region=pm_by_region(processed_data)
 
             # Log some information for debugging or monitoring
             logging.info('Successfully processed air quality data for grid_id %s', grid_id)
@@ -59,6 +63,11 @@ def air_quality_data():
                 'monthly_pm': pm2_5_by_month.to_dict(orient='records'),
                 'pm_by_month_year': pm2_5_by_month_year.to_dict(orient='records'),
                 'pm_by_month_name': pm2_5_by_month_name.to_dict(orient='records'),
+                'monthly_mean_pm_site_name': monthly_mean_pm_by_site_name.to_dict(orient='records'),
+                'mean_pm_by_city': mean_pm_by_city.to_dict(orient='records'),   
+                'mean_pm_by_country': mean_pm_by_country.to_dict(orient='records'),
+                'mean_pm_by_region': mean_pm_by_region.to_dict(orient='records'),
+
             }
 
             return jsonify(response_data)
