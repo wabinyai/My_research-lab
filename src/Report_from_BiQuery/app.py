@@ -1,8 +1,14 @@
 from flask import Flask, request, jsonify
 from datetime import datetime
 import logging
-from utils import fetch_air_quality_data, pm_by_city,pm_by_country,pm_by_region, monthly_mean_pm_site_name,datetime_pm2_5, mean_pm2_5_by_month_year, mean_pm2_5_by_month_name, query_bigquery, mean_pm2_5_by_month, results_to_dataframe, mean_pm2_5_by_year, mean_daily_pm2_5, mean_pm2_5_by_site_name, mean_pm2_5_by_hour
-
+from utils import (fetch_air_quality_data, 
+                                         pm_by_city,pm_by_country,
+                                         pm_by_region, monthly_mean_pm_site_name,
+                                         datetime_pm2_5, mean_pm2_5_by_month_year, 
+                                         mean_pm2_5_by_month_name, query_bigquery, 
+                                         mean_pm2_5_by_month, results_to_dataframe,
+                                           mean_pm2_5_by_year, mean_daily_pm2_5, 
+                                           mean_pm2_5_by_site_name, mean_pm2_5_by_hour)
 app = Flask(__name__)
 
 # Configure logging

@@ -9,7 +9,6 @@ from configure import Config
 from timezonefinder import TimezoneFinder
 import pytz
 
-
 def fetch_air_quality_data(grid_id, start_time, end_time) -> list:
     # Convert start_time and end_time to ISO format
     start_time_iso = start_time.isoformat() + 'Z'
