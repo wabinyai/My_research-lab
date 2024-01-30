@@ -9,6 +9,7 @@ from configure import Config
 from timezonefinder import TimezoneFinder
 import pytz
 
+
 def fetch_air_quality_data(grid_id, start_time, end_time) -> list:
     # Convert start_time and end_time to ISO format
     start_time_iso = start_time.isoformat() + 'Z'
@@ -91,6 +92,7 @@ def results_to_dataframe(results):
     df['year'] = df['timestamp'].dt.year
     df['month'] = df['timestamp'].dt.month
     df['month_name'] = df['timestamp'].dt.month_name()   
+    df=df.dropna(subset='site_latitude')
 
     return df
 # Define the list of columns as a constant
