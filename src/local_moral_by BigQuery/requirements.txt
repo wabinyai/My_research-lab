@@ -1,0 +1,9 @@
+flask
+pandas
+geopandas
+matplotlib
+pysal
+libpysal
+requests
+python-dotenv
+folium
