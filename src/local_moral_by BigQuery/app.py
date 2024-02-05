@@ -50,19 +50,6 @@ def get_air_quality_data():
 
         # Get GeoDataFrame for Local Moran's I analysis
         gdf = get_data_for_moran(df)
-        #gdf_geojson = FeatureCollection([Feature(geometry=Point(xy), properties={'calibratedValue': val}) for xy, val in zip(gdf.geometry.apply(lambda geom: (geom.x, geom.y)), gdf['calibratedValue'])])
-
-        gdf_geojson = FeatureCollection([
-            Feature(
-                geometry=Point(xy),
-                properties={
-                    'latitude': xy[1],  # Extract latitude from coordinates
-                    'longitude': xy[0],  # Extract longitude from coordinates
-                    'calibratedValue': val,  # Replace with your function for LOCAL moran
-                }
-            )
-            for xy, val in zip(gdf.geometry.apply(lambda geom: (geom.x, geom.y)), gdf['calibratedValue'])
-        ])
 
         # Perform Local Moran's I analysis
         moran_result = moran_local(moran_local_regression(gdf), gdf)
@@ -70,10 +57,19 @@ def get_air_quality_data():
 
         moran_result_num = moran_num_local(moran_local_regression(gdf), gdf)
         moran_result_num = moran_result_num.tolist()
-# Convert GeoDataFrame to GeoJSON
-#        gdf_geojson = FeatureCollection([Feature(geometry=Point(xy), properties={'calibratedValue': val}) for xy, val in zip(gdf.geometry.apply(lambda geom: (geom.x, geom.y)), gdf['calibratedValue'])])
 
-                # Construct the final response data
+        # Create GeoJSON with "cluster" attribute
+        gdf_geojson = FeatureCollection([
+            {
+                'latitude': xy[1],  # Extract latitude from coordinates
+                'longitude': xy[0],  # Extract longitude from coordinates
+                'calibratedValue': val,  # Replace with your function for LOCAL moran
+                'cluster': cluster
+            }
+            for xy, val, cluster in zip(gdf.geometry.apply(lambda geom: (geom.x, geom.y)), gdf['calibratedValue'], moran_result_list)
+        ])
+
+        # Construct the final response data
         response_data = {
             'airquality': {
                 'status': 'success',
@@ -83,13 +79,10 @@ def get_air_quality_data():
                     'startTime': start_time.isoformat(),
                     'endTime': end_time.isoformat(),
                 },
-                'moran_data':{
-                'moran': gdf_geojson,
-                'moran_local_category': moran_result_list,
-                'moran_local_num':moran_result_num,
-                
-                
-#                'gdf': gdf_geojson # Convert GeoDataFrame to JSON
+                'moran_data': {
+                    'moran': gdf_geojson,
+                    'moran_local_category': moran_result_list,
+                    'moran_local_num': moran_result_num,
                 }
             }
         }
