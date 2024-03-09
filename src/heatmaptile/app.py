@@ -3,8 +3,10 @@ from controller import heatmap_tile_and_save
 
 app = Flask(__name__)
 
-# API endpoint to serve heatmap tile and save it to a new PostgreSQL table
-app.add_url_rule('/heatmap_tile_and_save/<int:zoom>/<int:x>/<int:y>', 'heatmap_tile_and_save', heatmap_tile_and_save)
+def generate_and_save_heatmap_tile():
+    # Function to generate and save heatmap tile to PostgreSQL
+    return  heatmap_tile_and_save
 
 if __name__ == '__main__':
+    generate_and_save_heatmap_tile()  # Call the function to generate and save heatmap tile
     app.run(debug=True)

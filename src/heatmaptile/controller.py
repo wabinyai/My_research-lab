@@ -1,4 +1,4 @@
-from flask import send_file
+
 from database import retrieve_pm25_data, generate_and_save_heatmap_tile
 
 def heatmap_tile_and_save(zoom, x, y):
