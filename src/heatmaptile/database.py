@@ -37,7 +37,7 @@ def generate_and_save_heatmap_tile(pm25_data):
 
     connection = psycopg2.connect(Config.POSTGRES_CONNECTION_URL)
     cursor = connection.cursor()
-    cursor.execute("INSERT INTO {} (image_data) VALUES (%s)".format(Config.POSTGRES_TABLE), (image_data,))
+    cursor.execute("INSERT INTO {} (image_data) VALUES (%s)".format(Config.POSTGRES_TABLE_IMG), (image_data,))
     connection.commit()
     cursor.close()
     connection.close()
