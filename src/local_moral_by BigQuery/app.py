@@ -63,7 +63,7 @@ def get_air_quality_data():
             {
                 'latitude': xy[1],  # Extract latitude from coordinates
                 'longitude': xy[0],  # Extract longitude from coordinates
-                'calibratedValue': val,  # Replace with your function for LOCAL moran
+                'PM2_5_calibrated_Value': val,  # Replace with your function for LOCAL moran
                 'cluster': cluster
             }
             for xy, val, cluster in zip(gdf.geometry.apply(lambda geom: (geom.x, geom.y)), gdf['calibratedValue'], moran_result_list)
@@ -81,8 +81,8 @@ def get_air_quality_data():
                 },
                 'moran_data': {
                     'moran': gdf_geojson,
-                    'moran_local_category': moran_result_list,
-                    'moran_local_num': moran_result_num,
+        #            'moran_local_category': moran_result_list,
+        #            'moran_local_num': moran_result_num,
                 }
             }
         }

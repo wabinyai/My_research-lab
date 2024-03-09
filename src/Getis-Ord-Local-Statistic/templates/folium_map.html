@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Getis-Ord Map</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+    <style>
+        #map {
+            height: 80vh;
+        }
+    </style>
+</head>
+<body>
+    <!-- Map Div -->
+    <div id="map"></div>
+
+    <!-- Include Leaflet library -->
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+
+    <!-- Include folium scripts -->
+    <script src="https://unpkg.com/leaflet/src/Leaflet.js"></script>
+    <script src="https://unpkg.com/leaflet/src/ext/GeoJSON.js"></script>
+    <script src="https://unpkg.com/leaflet/src/ext/MarkerCluster.js"></script>
+    <script src="https://unpkg.com/leaflet/src/ext/MarkerClusterGroup.js"></script>
+
+    <!-- Your folium map script -->
+    <script>
+        var map = L.map('map').setView([{{ gdf['site_latitude'].mean() }}, {{ gdf['site_longitude'].mean() }}], 12);
+
+        // Add a tile layer
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '&copy; OpenStreetMap contributors'
+        }).addTo(map);
+
+        // Add original data points as gray markers
+        var originalLayer = L.layerGroup();
+        {% for index, row in gdf.iterrows() %}
+            L.circleMarker([{{ row['site_latitude'] }}, {{ row['site_longitude'] }}], {
+                radius: 5,
+                color: 'gray',
+                fill: true,
+                fillColor: 'gray',
+                fillOpacity: 0.7
+            }).bindPopup('{{ row['pm2_5_calibrated_value'] }}').addTo(originalLayer);
+        {% endfor %}
+        map.addLayer(originalLayer);
+
+        // Add statistically significant hot spots to the map as red markers
+        var hotSpots99Layer = L.layerGroup();
+        {% for index, row in gdf[significant_hot_spots_99].iterrows() %}
+            L.circleMarker([{{ row['site_latitude'] }}, {{ row['site_longitude'] }}], {
+                radius: 4,
+                color: 'red',
+                fill: true,
+                fillColor: 'red',
+                fillOpacity: 0.7
+            }).bindPopup('Hot Spot (99%): {{ row['pm2_5_calibrated_value'] }}').addTo(hotSpots99Layer);
+        {% endfor %}
+        map.addLayer(hotSpots99Layer);
+
+        // Add statistically significant hot spots to the map as orange markers
+        var hotSpots95Layer = L.layerGroup();
+        {% for index, row in gdf[significant_hot_spots_95].iterrows() %}
+            L.circleMarker([{{ row['site_latitude'] }}, {{ row['site_longitude'] }}], {
+                radius: 7,
+                color: 'orange',
+                fill: true,
+                fillColor: 'orange',
+                fillOpacity: 0.7
+            }).bindPopup('Hot Spot (95%): {{ row['pm2_5_calibrated_value'] }}').addTo(hotSpots95Layer);
+        {% endfor %}
+        map.addLayer(hotSpots95Layer);
+
+        // Add statistically significant hot spots to the map as yellow markers
+        var hotSpots90Layer = L.layerGroup();
+        {% for index, row in gdf[significant_hot_spots_90].iterrows() %}
+            L.circleMarker([{{ row['site_latitude'] }}, {{ row['site_longitude'] }}], {
+                radius: 7,
+                color: 'yellow',
+                fill: true,
+                fillColor: 'yellow',
+                fillOpacity: 0.7
+            }).bindPopup('Hot Spot (90%): {{ row['pm2_5_calibrated_value'] }}').addTo(hotSpots90Layer);
+        {% endfor %}
+        map.addLayer(hotSpots90Layer);
+
+        // Add statistically significant cold spots to the map as blue markers
+        var coldSpots99Layer = L.layerGroup();
+        {% for index, row in gdf[significant_cold_spots_99].iterrows() %}
+            L.circleMarker([{{ row['site_latitude'] }}, {{ row['site_longitude'] }}], {
+                radius: 7,
+                color: 'blue',
+                fill: true,
+                fillColor: 'blue',
+                fillOpacity: 0.7
+            }).bindPopup('Cold Spot (99%): {{ row['pm2_5_calibrated_value'] }}').addTo(coldSpots99Layer);
+        {% endfor %}
+        map.addLayer(coldSpots99Layer);
+
+        // Add statistically significant cold spots to the map as light blue markers
+        var coldSpots95Layer = L.layerGroup();
+        {% for index, row in gdf[significant_cold_spots_95].iterrows() %}
+            L.circleMarker([{{ row['site_latitude'] }}, {{ row['site_longitude'] }}], {
+                radius: 7,
+                color: 'lightblue',
+                fill: true,
+                fillColor: 'lightblue',
+                fillOpacity: 0.7
+            }).bindPopup('Cold Spot (95%): {{ row['pm2_5_calibrated_value'] }}').addTo(coldSpots95Layer);
+        {% endfor %}
+        map.addLayer(coldSpots95Layer);
+
+        // Add statistically significant cold spots to the map as green markers
+        var coldSpots90Layer = L.layerGroup();
+        {% for index, row in gdf[significant_cold_spots_90].iterrows() %}
+            L.circleMarker([{{ row['site_latitude'] }}, {{ row['site_longitude'] }}], {
+                radius: 7,
+                color: 'green',
+                fill: true,
+                fillColor: 'green',
+                fillOpacity: 0.7
+            }).bindPopup('Cold Spot (90%): {{ row['pm2_5_calibrated_value'] }}').addTo(coldSpots90Layer);
+        {% endfor %}
+        map.addLayer(coldSpots90Layer);
+
+        // Add legend
+        var legend = L.control({ position: 'bottomleft' });
+
+        legend.onAdd = function (map) {
+            var div = L.DomUtil.create('div', 'info legend');
+            div.innerHTML = `
+                <b>Legend: PM<sub>2.5</sub></b> <br>
+                Hot Spot (99%): <span style="color:red; font-size: 25px;">&#9679;</span><br>
+                Hot Spot (95%): <span style="color:orange; font-size: 25px;">&#9679;</span><br>
+                Hot Spot (90%): <span style="color:yellow; font-size: 25px;">&#9679;</span><br>
+                Not significant: <span style="color:gray; font-size: 25px;">&#9679;</span><br>
+                Cold Spot (99%): <span style="color:blue; font-size: 25px;">&#9679;</span><br>
+                Cold Spot (95%): <span style="color:lightblue; font-size: 25px;">&#9679;</span><br>
+                Cold Spot (90%): <span style="color:green; font-size: 25px;">&#9679;</span><br>
+            `;
+            return div;
+        };
+
+        legend.addTo(map);
+    </script>
+</body>
+</html>

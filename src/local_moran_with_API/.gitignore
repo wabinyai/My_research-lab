@@ -1,5 +1,6 @@
 .env
+venv
+google_application_credentials.json
 __pycache__/
 *.pyc
-venv
-Local_Moran_I_cluster_map.html
+*.log

@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Getis-Ord Map</title>
+    <!-- Include required CSS and JavaScript files for Folium -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+</head>
+<body>
+
+{{ title_html | safe }}
+
+<!-- Create a div element to hold the map -->
+<div id="map" style="height: 600px;"></div>
+
+{{ legend_html | safe }}
+
+<!-- Include the JavaScript code for the Folium map -->
+<script>
+    // Function to create the Folium map
+    function createMap() {
+        // Create a map centered around the mean latitude and longitude of the data
+        var map = L.map('map').setView([{{ gdf['site_latitude'].mean() }}, {{ gdf['site_longitude'].mean() }}], 12);
+
+        // Add the original data points to the map as gray markers
+        {% for _, row in gdf.iterrows() %}
+            L.circleMarker([{{ row['site_latitude'] }}, {{ row['site_longitude'] }}], {
+                radius: 5,
+                color: 'gray',
+                fill: true,
+                fillColor: 'gray',
+                fillOpacity: 0.7,
+            }).bindPopup('{{ row['pm2_5_calibrated_value'] }}').addTo(map);
+        {% endfor %}
+
+        // Add statistically significant hot spots to the map as red markers
+        {% for _, row in gdf[significant_hot_spots_99].iterrows() %}
+            L.circleMarker([{{ row['site_latitude'] }}, {{ row['site_longitude'] }}], {
+                radius: 4,
+                color: 'red',
+                fill: true,
+                fillColor: 'red',
+                fillOpacity: 0.7,
+            }).bindPopup('Hot Spot (99%): {{ row['pm2_5_calibrated_value'] }}').addTo(map);
+        {% endfor %}
+
+        // Add statistically significant cold spots to the map as blue markers
+        {% for _, row in gdf[significant_cold_spots_99].iterrows() %}
+            L.circleMarker([{{ row['site_latitude'] }}, {{ row['site_longitude'] }}], {
+                radius: 7,
+                color: 'blue',
+                fill: true,
+                fillColor: 'blue',
+                fillOpacity: 0.7,
+            }).bindPopup('Cold Spot (99%): {{ row['pm2_5_calibrated_value'] }}').addTo(map);
+        {% endfor %}
+    }
+
+    // Call the createMap function when the page is loaded
+    document.addEventListener('DOMContentLoaded', createMap);
+</script>
+
+</body>
+</html>
