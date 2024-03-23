@@ -1,0 +1,428 @@
+{
+    "airquality": {
+        "city": "Gulu city",
+        "start_time": "2024-01-01",
+        "end_time": "2024-01-07",
+        "diurnal": [
+            {
+                "hour": 0,
+                "pm10_calibrated_value": null,
+                "pm10_raw_value": 37.3108,
+                "pm2_5_calibrated_value": null,
+                "pm2_5_raw_value": 31.1102
+            },
+            {
+                "hour": 1,
+                "pm10_calibrated_value": 33.1979,
+                "pm10_raw_value": 43.0327,
+                "pm2_5_calibrated_value": 24.3794,
+                "pm2_5_raw_value": 36.0745
+            },
+            {
+                "hour": 7,
+                "pm10_calibrated_value": 157.6565,
+                "pm10_raw_value": 161.5766,
+                "pm2_5_calibrated_value": 93.9913,
+                "pm2_5_raw_value": 154.4954
+            },
+            {
+                "hour": 8,
+                "pm10_calibrated_value": 67.2226,
+                "pm10_raw_value": 45.1296,
+                "pm2_5_calibrated_value": 44.5106,
+                "pm2_5_raw_value": 41.8995
+            },
+            {
+                "hour": 9,
+                "pm10_calibrated_value": 22.8685,
+                "pm10_raw_value": 26.8105,
+                "pm2_5_calibrated_value": 19.1486,
+                "pm2_5_raw_value": 24.4138
+            },
+            {
+                "hour": 10,
+                "pm10_calibrated_value": 19.9948,
+                "pm10_raw_value": 21.5431,
+                "pm2_5_calibrated_value": 16.5442,
+                "pm2_5_raw_value": 20.1437
+            },
+            {
+                "hour": 11,
+                "pm10_calibrated_value": 20.6336,
+                "pm10_raw_value": 17.8184,
+                "pm2_5_calibrated_value": 17.3722,
+                "pm2_5_raw_value": 16.622
+            },
+            {
+                "hour": 12,
+                "pm10_calibrated_value": 20.4181,
+                "pm10_raw_value": 15.7298,
+                "pm2_5_calibrated_value": 16.8658,
+                "pm2_5_raw_value": 14.5482
+            },
+            {
+                "hour": 13,
+                "pm10_calibrated_value": 12.686,
+                "pm10_raw_value": 16.5469,
+                "pm2_5_calibrated_value": 15.3819,
+                "pm2_5_raw_value": 15.444
+            },
+            {
+                "hour": 14,
+                "pm10_calibrated_value": 20.5045,
+                "pm10_raw_value": 16.7844,
+                "pm2_5_calibrated_value": 16.7692,
+                "pm2_5_raw_value": 15.6112
+            },
+            {
+                "hour": 15,
+                "pm10_calibrated_value": 23.3193,
+                "pm10_raw_value": 16.5137,
+                "pm2_5_calibrated_value": 16.3857,
+                "pm2_5_raw_value": 15.3721
+            },
+            {
+                "hour": 16,
+                "pm10_calibrated_value": 23.1634,
+                "pm10_raw_value": 16.7107,
+                "pm2_5_calibrated_value": 16.4196,
+                "pm2_5_raw_value": 15.526
+            },
+            {
+                "hour": 17,
+                "pm10_calibrated_value": 24.1524,
+                "pm10_raw_value": 21.0125,
+                "pm2_5_calibrated_value": 17.9719,
+                "pm2_5_raw_value": 19.3226
+            },
+            {
+                "hour": 18,
+                "pm10_calibrated_value": 47.2428,
+                "pm10_raw_value": 43.0231,
+                "pm2_5_calibrated_value": 32.912,
+                "pm2_5_raw_value": 37.1837
+            },
+            {
+                "hour": 19,
+                "pm10_calibrated_value": 47.8834,
+                "pm10_raw_value": 56.4406,
+                "pm2_5_calibrated_value": 37.6868,
+                "pm2_5_raw_value": 48.5232
+            },
+            {
+                "hour": 20,
+                "pm10_calibrated_value": null,
+                "pm10_raw_value": 49.3645,
+                "pm2_5_calibrated_value": null,
+                "pm2_5_raw_value": 42.9992
+            },
+            {
+                "hour": 21,
+                "pm10_calibrated_value": null,
+                "pm10_raw_value": 34.5325,
+                "pm2_5_calibrated_value": null,
+                "pm2_5_raw_value": 28.5897
+            },
+            {
+                "hour": 22,
+                "pm10_calibrated_value": null,
+                "pm10_raw_value": 32.8997,
+                "pm2_5_calibrated_value": null,
+                "pm2_5_raw_value": 27.4168
+            },
+            {
+                "hour": 23,
+                "pm10_calibrated_value": null,
+                "pm10_raw_value": 36.6356,
+                "pm2_5_calibrated_value": null,
+                "pm2_5_raw_value": 30.876
+            }
+        ],
+        "grid_id": "659d036497e611001236cd1b",
+        "mean_pm_by_day_hour": [
+            {
+                "day": "Friday",
+                "hour": 7,
+                "pm10_calibrated_value": 157.6565,
+                "pm10_raw_value": 161.5766,
+                "pm2_5_calibrated_value": 93.9913,
+                "pm2_5_raw_value": 154.4954
+            },
+            {
+                "day": "Friday",
+                "hour": 8,
+                "pm10_calibrated_value": 89.827,
+                "pm10_raw_value": 53.5215,
+                "pm2_5_calibrated_value": 59.3066,
+                "pm2_5_raw_value": 49.8414
+            },
+            {
+                "day": "Friday",
+                "hour": 12,
+                "pm10_calibrated_value": 19.4982,
+                "pm10_raw_value": 14.6908,
+                "pm2_5_calibrated_value": 15.1375,
+                "pm2_5_raw_value": 13.5086
+            },
+            {
+                "day": "Friday",
+                "hour": 14,
+                "pm10_calibrated_value": 20.4078,
+                "pm10_raw_value": 16.2445,
+                "pm2_5_calibrated_value": 15.1676,
+                "pm2_5_raw_value": 15.1413
+            },
+            {
+                "day": "Friday",
+                "hour": 15,
+                "pm10_calibrated_value": 22.0581,
+                "pm10_raw_value": 15.4221,
+                "pm2_5_calibrated_value": 14.3854,
+                "pm2_5_raw_value": 14.353
+            },
+            {
+                "day": "Friday",
+                "hour": 16,
+                "pm10_calibrated_value": 24.114,
+                "pm10_raw_value": 16.7229,
+                "pm2_5_calibrated_value": 15.5203,
+                "pm2_5_raw_value": 15.5656
+            },
+            {
+                "day": "Friday",
+                "hour": 17,
+                "pm10_calibrated_value": 25.0476,
+                "pm10_raw_value": 21.1728,
+                "pm2_5_calibrated_value": 17.2413,
+                "pm2_5_raw_value": 19.4877
+            },
+            {
+                "day": "Friday",
+                "hour": 18,
+                "pm10_calibrated_value": 59.0872,
+                "pm10_raw_value": 54.1269,
+                "pm2_5_calibrated_value": 40.1351,
+                "pm2_5_raw_value": 46.1406
+            },
+            {
+                "day": "Friday",
+                "hour": 19,
+                "pm10_calibrated_value": 65.2644,
+                "pm10_raw_value": 75.4779,
+                "pm2_5_calibrated_value": 53.2245,
+                "pm2_5_raw_value": 64.489
+            },
+            {
+                "day": "Friday",
+                "hour": 20,
+                "pm10_calibrated_value": null,
+                "pm10_raw_value": 76.6024,
+                "pm2_5_calibrated_value": null,
+                "pm2_5_raw_value": 66.0124
+            },
+            {
+                "day": "Friday",
+                "hour": 21,
+                "pm10_calibrated_value": null,
+                "pm10_raw_value": 56.6334,
+                "pm2_5_calibrated_value": null,
+                "pm2_5_raw_value": 45.6175
+            },
+            {
+                "day": "Friday",
+                "hour": 22,
+                "pm10_calibrated_value": null,
+                "pm10_raw_value": 53.7224,
+                "pm2_5_calibrated_value": null,
+                "pm2_5_raw_value": 43.6049
+            },
+            {
+                "day": "Friday",
+                "hour": 23,
+                "pm10_calibrated_value": null,
+                "pm10_raw_value": 54.2351,
+                "pm2_5_calibrated_value": null,
+                "pm2_5_raw_value": 43.8994
+            },
+            {
+                "day": "Monday",
+                "hour": 8,
+                "pm10_calibrated_value": 44.6182,
+                "pm10_raw_value": 36.7377,
+                "pm2_5_calibrated_value": 29.7147,
+                "pm2_5_raw_value": 33.9576
+            },
+            {
+                "day": "Monday",
+                "hour": 9,
+                "pm10_calibrated_value": 22.8685,
+                "pm10_raw_value": 26.8105,
+                "pm2_5_calibrated_value": 19.1486,
+                "pm2_5_raw_value": 24.4138
+            },
+            {
+                "day": "Monday",
+                "hour": 10,
+                "pm10_calibrated_value": 19.9948,
+                "pm10_raw_value": 21.5431,
+                "pm2_5_calibrated_value": 16.5442,
+                "pm2_5_raw_value": 20.1437
+            },
+            {
+                "day": "Monday",
+                "hour": 11,
+                "pm10_calibrated_value": 20.6336,
+                "pm10_raw_value": 17.8184,
+                "pm2_5_calibrated_value": 17.3722,
+                "pm2_5_raw_value": 16.622
+            },
+            {
+                "day": "Monday",
+                "hour": 12,
+                "pm10_calibrated_value": 21.338,
+                "pm10_raw_value": 16.7687,
+                "pm2_5_calibrated_value": 18.594,
+                "pm2_5_raw_value": 15.5878
+            },
+            {
+                "day": "Monday",
+                "hour": 13,
+                "pm10_calibrated_value": 12.686,
+                "pm10_raw_value": 16.5469,
+                "pm2_5_calibrated_value": 15.3819,
+                "pm2_5_raw_value": 15.444
+            },
+            {
+                "day": "Monday",
+                "hour": 14,
+                "pm10_calibrated_value": 20.6012,
+                "pm10_raw_value": 17.3243,
+                "pm2_5_calibrated_value": 18.3708,
+                "pm2_5_raw_value": 16.0811
+            },
+            {
+                "day": "Monday",
+                "hour": 15,
+                "pm10_calibrated_value": 24.5804,
+                "pm10_raw_value": 17.6053,
+                "pm2_5_calibrated_value": 18.3861,
+                "pm2_5_raw_value": 16.3912
+            },
+            {
+                "day": "Monday",
+                "hour": 16,
+                "pm10_calibrated_value": 22.2127,
+                "pm10_raw_value": 16.6984,
+                "pm2_5_calibrated_value": 17.3189,
+                "pm2_5_raw_value": 15.4863
+            },
+            {
+                "day": "Monday",
+                "hour": 17,
+                "pm10_calibrated_value": 23.2572,
+                "pm10_raw_value": 20.8521,
+                "pm2_5_calibrated_value": 18.7026,
+                "pm2_5_raw_value": 19.1576
+            },
+            {
+                "day": "Monday",
+                "hour": 18,
+                "pm10_calibrated_value": 35.3983,
+                "pm10_raw_value": 31.9194,
+                "pm2_5_calibrated_value": 25.6888,
+                "pm2_5_raw_value": 28.2268
+            },
+            {
+                "day": "Monday",
+                "hour": 19,
+                "pm10_calibrated_value": 30.5024,
+                "pm10_raw_value": 37.4033,
+                "pm2_5_calibrated_value": 22.1491,
+                "pm2_5_raw_value": 32.5574
+            },
+            {
+                "day": "Monday",
+                "hour": 20,
+                "pm10_calibrated_value": null,
+                "pm10_raw_value": 22.1265,
+                "pm2_5_calibrated_value": null,
+                "pm2_5_raw_value": 19.9861
+            },
+            {
+                "day": "Monday",
+                "hour": 21,
+                "pm10_calibrated_value": null,
+                "pm10_raw_value": 12.4315,
+                "pm2_5_calibrated_value": null,
+                "pm2_5_raw_value": 11.5618
+            },
+            {
+                "day": "Monday",
+                "hour": 22,
+                "pm10_calibrated_value": null,
+                "pm10_raw_value": 12.0771,
+                "pm2_5_calibrated_value": null,
+                "pm2_5_raw_value": 11.2286
+            },
+            {
+                "day": "Monday",
+                "hour": 23,
+                "pm10_calibrated_value": null,
+                "pm10_raw_value": 19.0361,
+                "pm2_5_calibrated_value": null,
+                "pm2_5_raw_value": 17.8526
+            },
+            {
+                "day": "Saturday",
+                "hour": 0,
+                "pm10_calibrated_value": null,
+                "pm10_raw_value": 57.5725,
+                "pm2_5_calibrated_value": null,
+                "pm2_5_raw_value": 46.3089
+            },
+            {
+                "day": "Saturday",
+                "hour": 1,
+                "pm10_calibrated_value": 53.6863,
+                "pm10_raw_value": 67.5222,
+                "pm2_5_calibrated_value": 37.9852,
+                "pm2_5_raw_value": 54.6598
+            },
+            {
+                "day": "Tuesday",
+                "hour": 0,
+                "pm10_calibrated_value": null,
+                "pm10_raw_value": 17.0491,
+                "pm2_5_calibrated_value": null,
+                "pm2_5_raw_value": 15.9115
+            },
+            {
+                "day": "Tuesday",
+                "hour": 1,
+                "pm10_calibrated_value": 12.7095,
+                "pm10_raw_value": 18.5431,
+                "pm2_5_calibrated_value": 10.7735,
+                "pm2_5_raw_value": 17.4892
+            }
+        ],
+        "period": {
+            "endTime": "2023-12-05T00:00:00",
+            "startTime": "2023-12-01T00:00:00"
+        },
+        "sites": {
+            "grid name": [
+                "Gulu",
+                "Unyama"
+            ],
+            "number_of_sites": 5,
+            "site_ids": [
+                "647896dcc87a97001e1077b0",
+                "647a039f7c1d6d00290f49b1",
+                "647a320f1024cb00295927f8",
+                "647896640c47b0001eba8ff2",
+                "6478960bc87a97001e107621"
+            ]
+        },
+        "status": "success"
+    }
+}
