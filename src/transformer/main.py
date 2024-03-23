@@ -1,4 +1,6 @@
 import torch
+import pandas
+import pandas as pd
 from transformers import T5ForConditionalGeneration, T5Tokenizer
 
 # Load pre-trained model and tokenizer
@@ -6,36 +8,15 @@ model = T5ForConditionalGeneration.from_pretrained("t5-small")
 tokenizer = T5Tokenizer.from_pretrained("t5-small")
 
 # Data from the provided JSON
-data = [{
-    "airquality": {
-        "city": "Your City",
-        "start_time": "2024-01-01",
-        "end_time": "2024-01-07",
-        "diurnal": [
-            {"hour": 0, "pm10_raw_value": 37.3108, "pm2_5_raw_value": 31.1102},
-            {"hour": 1, "pm10_raw_value": 43.0327, "pm2_5_raw_value": 36.0745},
-            # More data...
-        ],
-        "mean_pm_by_day_hour": [
-            {"day": "Friday", "hour": 7, "pm10_raw_value": 161.5766, "pm2_5_raw_value": 154.4954},
-            {"day": "Monday", "hour": 8, "pm10_raw_value": 53.5215, "pm2_5_raw_value": 49.8414},
-            # More data...
-        ],
-        "sites": {
-            "grid name": ["Gulu", "Unyama"],
-            "number_of_sites": 5,
-            # More data...
-        },
-        "status": "success"
-    }
-}]
-
+data = pd.read_json('data/diurnal.json')
+#data = pd.DataFrame.from_dict(df)
+print (data)
 # Extract relevant data for the report
-diurnal_data = data[0]["airquality"]["diurnal"]
-mean_pm_data = data[0]["airquality"]["mean_pm_by_day_hour"]
-city = data[0]["airquality"]["city"]
-start_time = data[0]["airquality"]["start_time"]
-end_time = data[0]["airquality"]["end_time"]
+diurnal_data = data['airquality']['diurnal']
+city = data['airquality']['city']
+start_time = data['airquality']['start_time']
+end_time = data['airquality']['end_time']
+mean_pm_data = data["airquality"]["mean_pm_by_day_hour"]
 
 # Generate introduction dynamically
 introduction_template = "Introduction:\n\nAir quality report for {city} from {start_time} to {end_time}.\n\n"
