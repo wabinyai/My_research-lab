@@ -54,7 +54,7 @@ class DataHandler:
                 AND TIMESTAMP('{end_time.isoformat()}')
                 AND pm2_5 IS NOT NULL
                 AND site_latitude IS NOT NULL
-            LIMIT 50;
+            
         """
 
         try:
@@ -125,6 +125,16 @@ class DataHandler:
     def satellite_image(self):
         images = {
             'Offline_UV_Aerosol_Index': 'COPERNICUS/S5P/OFFL/L3_AER_AI',
+            'SulphurDioxide': 'COPERNICUS/S5P/NRTI/L3_SO2',
+            'CarbonMonoxide': 'COPERNICUS/S5P/NRTI/L3_CO',
+            'NitrogenDioxide': 'COPERNICUS/S5P/NRTI/L3_NO2',
+            'Formaldehyde': 'COPERNICUS/S5P/NRTI/L3_HCHO',
+            'UvAerosolIndex': 'COPERNICUS/S5P/NRTI/L3_AER_AI',
+            'Ozone': 'COPERNICUS/S5P/NRTI/L3_O3',
+            'UvAerosolLayerHeight': 'COPERNICUS/S5P/NRTI/L3_AER_LH',
+            'Landsat-7': 'LANDSAT/LE07/C02/T1',
+            'Landsat-8':'LANDSAT/LC08/C02/T1',
+            'Cloud': 'COPERNICUS/S5P/OFFL/L3_CLOUD',
   
         }
         return images
