@@ -3,9 +3,7 @@ venv
 google_application_credentials.json
 __pycache__/
 *.pyc
-*.log
-.env
-__pycache__/
+*.log 
 env/
 __init__test.py
 .gitkeep
