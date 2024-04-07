@@ -1,9 +1,4 @@
 .env
-map.html
-venv
-google_application_credentials.json
-__pycache__/
-.env
 venv
 google_application_credentials.json
 __pycache__/
