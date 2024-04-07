@@ -5,9 +5,8 @@ google_application_credentials.json
 __pycache__/
 *.pyc
 *.log
-.env
-__pycache__/
-env/
+
+
 __init__test.py
 .gitkeep
 .vscode
@@ -29,7 +28,6 @@ venv/
 env/
 *.pyc
 *.pyo
-__pycache__/
 
 # Node.js
 node_modules/

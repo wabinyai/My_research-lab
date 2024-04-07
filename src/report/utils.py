@@ -18,7 +18,7 @@ def fetch_air_quality_data(grid_id, start_time, end_time, page  ) -> list:
         "page": page
     }
     
-    grid_url = f"https://platform.airqo.net/api/v2/devices/measurements/grids/{grid_id}"
+    grid_url = f"https://platform.airqo.net/api/v2/devices/measurements/grids/{grid_id}/historical"
      
     grid_response = requests.get(grid_url, params=grid_params)
     if grid_response.status_code == 200:
@@ -44,6 +44,7 @@ def read_air_quality_data(data):
                 # Extracting date, year, day, and month from the time field
         time_dt = datetime.strptime(time_str, "%Y-%m-%dT%H:%M:%S.%fZ")
         date = time_dt.date()
+        hour = time_dt.hour
         year = time_dt.year
         day = time_dt.day
         month = time_dt.month
@@ -64,6 +65,7 @@ def read_air_quality_data(data):
         result.append({
             "time": time_str,
             "date": date,
+            "hour": hour,
             "year": year,
             "day": day,
             "month": month,
@@ -109,6 +111,42 @@ def calculate_monthly_average_pm2_5(data):
     month_average = month_average.sort_values(by="month")
 
     return month_average
+
+def calculate_date_average_pm2_5(data):
+    df = pd.DataFrame(data)
+    df = df.dropna()
+    date_average = df.groupby("date").agg({
+        "pm2_5_value": "mean",
+        "pm10_value": "mean"
+    }).reset_index()  # Resetting the index
+    # Sort by month in ascending order
+    date_average = date_average.sort_values(by="date")
+
+    return date_average
+
+def calculate_yearly_average_pm2_5(data):
+    df = pd.DataFrame(data)
+    df = df.dropna()
+    yearly_average = df.groupby("year").agg({
+        "pm2_5_value": "mean",
+        "pm10_value": "mean"
+    }).reset_index()  # Resetting the index
+    # Sort by month in ascending order
+    yearly_average = yearly_average.sort_values(by="year")
+
+    return yearly_average
+
+def calculate_diurnal_average_pm2_5(data):
+    df = pd.DataFrame(data)
+    df = df.dropna()
+    diurnal_average = df.groupby("hour").agg({
+        "pm2_5_value": "mean",
+        "pm10_value": "mean"
+    }).reset_index()  # Resetting the index
+    # Sort by month in ascending order
+    diurnal_average = diurnal_average.sort_values(by="hour")
+
+    return diurnal_average
 
 def month_unique(data):
     df = pd.DataFrame(data)

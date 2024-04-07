@@ -1,7 +1,9 @@
 flask
 pandas
+geopandas
 matplotlib
+pysal
+libpysal
 requests
-reportlab
 python-dotenv
-gunicorn
+folium

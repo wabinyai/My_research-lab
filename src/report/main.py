@@ -2,9 +2,9 @@ from utils import fetch_air_quality_data, read_air_quality_data, calculate_avera
 from datetime import datetime
 
 # Specify the airqloud_id
-grid_id = "6542358ddcd81300139b4c1b"
-start_time = datetime(2023, 7, 1, 9, 0, 0)
-end_time = datetime(2023, 10, 30, 9, 0, 0)
+grid_id = "64b7f325d7249f0029fed743"
+start_time = datetime(2023, 1, 1, 9, 0, 0)
+end_time = datetime(2024, 1, 22, 9, 0, 0)
 page = 1
 top_location = 6
 least_location = 1
