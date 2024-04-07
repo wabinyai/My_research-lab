@@ -1,19 +1,34 @@
-.env
-venv
-google_application_credentials.json
-__pycache__/
-*.pyc
-*.log
-.env
-__pycache__/
-env/
-__init__test.py
-.gitkeep
-.vscode
-.DS_Store
+# Ignore virtual environment
 venv/
+env
+venv
+
+# Ignore Python cache files
+__pycache__/
+
+# Ignore Visual Studio Code settings
+.vscode/
+
+# Ignore macOS directory file
+.DS_Store
+
+# Ignore application credentials
+google_application_credentials.json
+
+# Ignore private keys
 private_key.json
-*.json
-app.log
-__pycache__
+
+# Ignore log files
+*.log
+
+# Ignore environment files
 .env
+
+# Ignore test files
+__init__test.py
+
+# Ignore JSON files
+*.json
+
+# Keep this file in the repository
+.gitkeep
