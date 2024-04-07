@@ -3,4 +3,15 @@ venv
 google_application_credentials.json
 __pycache__/
 *.pyc
-*.log
+*.log 
+env/
+__init__test.py
+.gitkeep
+.vscode
+.DS_Store
+venv/
+private_key.json
+*.json
+app.log
+__pycache__
+.env

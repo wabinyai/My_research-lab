@@ -1,0 +1,14 @@
+flask
+pandas
+requests
+python-dotenv
+google-cloud-bigquery
+google-cloud-storage
+google-cloud-bigquery[pandas] 
+gunicorn
+flask-cors
+ee
+geemap
+tqdm
+os
+pymongo
