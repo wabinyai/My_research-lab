@@ -2,10 +2,7 @@ from utils import DataHandler
 from datetime import datetime, timedelta
 
 def main():
-    # Create an instance of DataHandler
     data_handler = DataHandler()
-
-    # Example usage of query_bigquery
     start_time = datetime.now() - timedelta(days=26)
     end_time = datetime.now()
     data = data_handler.query_bigquery(start_time=start_time, end_time=end_time)

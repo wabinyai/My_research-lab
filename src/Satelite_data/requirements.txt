@@ -1,4 +1,3 @@
-flask
 pandas
 requests
 python-dotenv
@@ -9,6 +8,5 @@ gunicorn
 flask-cors
 ee
 geemap
-tqdm
 os
 pymongo

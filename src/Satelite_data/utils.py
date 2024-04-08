@@ -8,10 +8,8 @@ import os
 import random
 import string
 import ee
-import tqdm
 from functools import reduce
-import geemap
-from geemap.datasets import DATA
+import geemap 
 from pymongo import MongoClient
 
 from configure import Config
@@ -25,9 +23,6 @@ class DataHandler:
         self.client = bigquery.Client()
         self.data_path = None
         ee.Initialize(credentials, project=Config.GOOGLE_PROJECT_ID)
-    #    self.mongo_client = MongoClient(Config.MONGODB_URI)
-    #    self.db = self.mongo_client[Config.MONGODB_DATABASE]
-    #    self.collection = self.db[Config.MONGODB_COLLECTION]
 
     SEED = 89561
 
@@ -54,7 +49,7 @@ class DataHandler:
                 AND TIMESTAMP('{end_time.isoformat()}')
                 AND pm2_5 IS NOT NULL
                 AND site_latitude IS NOT NULL
-            LIMIT 50;
+            LIMIT 500;
         """
 
         try:
@@ -68,7 +63,7 @@ class DataHandler:
         except Exception as e:
             print(f"Error querying BigQuery: {e}")
             return None
-        
+
     def site_geolocation_data(self, query_bigquery):
         site_geolocation = query_bigquery[['site_name', 'site_id', 'site_latitude', 'site_longitude',  'country']]
         geo_df = site_geolocation.groupby(['site_id']).agg({
@@ -79,14 +74,13 @@ class DataHandler:
         }).reset_index()
         
         return geo_df
+    
     def get_data_df(self, df, geo_df):
         site_names = {}
         for site_id in df.site_id.unique():
             site_names[site_id] = df[df.site_id == site_id].site_name.mode()[0]
 
         site_df = pd.DataFrame(columns=['site_id', 'site_name', 'site_latitude', 'site_longitude', 'start_date','end_date','country'])
-    
- 
 
     def get_site_names(self, df):
         site_names = {}
@@ -125,10 +119,11 @@ class DataHandler:
     def satellite_image(self):
         images = {
             'Offline_UV_Aerosol_Index': 'COPERNICUS/S5P/OFFL/L3_AER_AI',
+            
   
         }
         return images
-
+    
     def get_image_data(self, site_df):
         dfs = {}
         images = self.satellite_image()
@@ -204,8 +199,8 @@ class DataHandler:
             print(f"Error processing site data: {e}")
 
         return site_dfs
-
     
+
     def merge_site_data(self, site_dfs):
         result_df = pd.DataFrame()
         for key in site_dfs.keys():
@@ -217,4 +212,6 @@ class DataHandler:
       merged_df_ = df1.merge(result_df, how='right', on=['site_id', 'date', 'month', 'hour'])
       merged_df_= merged_df_[~merged_df_['country'].isna()].reset_index(drop = True)
       merged_df_ = merged_df_.drop(columns=[col for col in merged_df_.columns if '_datetime' in col])
+      #merged_df_.to_csv('output.csv', index=False)
+
       return merged_df_
