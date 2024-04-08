@@ -1,0 +1,15 @@
+.env
+__pycache__/
+env/
+__init__test.py
+.gitkeep
+.vscode
+.DS_Store
+venv
+venv\
+private_key.json
+*.json
+app.log
+__pycache__
+.env
+google_application_credentials.json
