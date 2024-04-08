@@ -40,6 +40,10 @@ def main():
     merged_df_ = data_handler.extract_and_merge_data(data, all_data_dfs)
     print("Data extraction and merging complete.")
     
+    print("Saving merged data to MongoDB...")
+    data_handler.save_to_mongodb(merged_df_)
+    print("Merged data saved to MongoDB.")
+    
     print(merged_df_)
 
 if __name__ == "__main__":

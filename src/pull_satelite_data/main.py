@@ -16,6 +16,8 @@ def main():
     site_dfs = data_handler.process_site_data(dfs)
     all_data_dfs = data_handler.merge_site_data(site_dfs)
     merged_df_ = data_handler.extract_and_merge_data(data, all_data_dfs)
+    data_handler.save_to_mongodb(merged_df_)
+    print("Merged data saved to MongoDB.")
     print(merged_df_)
  
 if __name__ == "__main__":
