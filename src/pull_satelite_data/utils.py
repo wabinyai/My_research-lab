@@ -10,7 +10,8 @@ import string
 import ee
 from functools import reduce
 import geemap 
-
+from pymongo import MongoClient
+from bson.json_util import dumps
 
 from pymongo import MongoClient
 
@@ -25,9 +26,9 @@ class DataHandler:
         self.client = bigquery.Client()
         self.data_path = None
         ee.Initialize(credentials, project=Config.GOOGLE_PROJECT_ID)
-    #    self.mongo_client = MongoClient(Config.MONGODB_URI)
-    #    self.db = self.mongo_client[Config.MONGODB_DATABASE]
-    #    self.collection = self.db[Config.MONGODB_COLLECTION]
+        self.mongo_client = MongoClient(Config.MONGODB_URI)
+        self.db = self.mongo_client[Config.MONGODB_DATABASE]
+        self.collection = self.db[Config.MONGODB_COLLECTION]
 
     SEED = 89561
 
@@ -124,7 +125,12 @@ class DataHandler:
     def satellite_image(self):
         images = {
             'Offline_UV_Aerosol_Index': 'COPERNICUS/S5P/OFFL/L3_AER_AI',
+            'SulphurDioxide': 'COPERNICUS/S5P/NRTI/L3_SO2',
             'CarbonMonoxide': 'COPERNICUS/S5P/NRTI/L3_CO',
+            'NitrogenDioxide': 'COPERNICUS/S5P/NRTI/L3_NO2',
+            'Formaldehyde': 'COPERNICUS/S5P/NRTI/L3_HCHO',
+            'UvAerosolIndex': 'COPERNICUS/S5P/NRTI/L3_AER_AI',
+            'Ozone': 'COPERNICUS/S5P/NRTI/L3_O3',
             
   
         }
@@ -204,3 +210,27 @@ class DataHandler:
       merged_df_.to_csv('output.csv', index=False)
 
       return merged_df_
+    
+    def save_to_mongodb(self, merged_df_):
+        try:
+            for record in merged_df_.to_dict(orient='records'):
+                # Check if the record already exists in the database
+                existing_record = self.collection.find_one({
+                    'site_id': record['site_id'],
+                    'date': record['date'],
+                    'hour': record['hour'],
+                    'pm2_5': record['pm2_5'],
+                })
+                if existing_record:
+                    # Update existing record with new data
+                    new_data = {key: value for key, value in record.items() if key not in ['site_id', 'date', 'hour']}
+                    self.collection.update_one(
+                        {'_id': existing_record['_id']},
+                        {'$set': new_data}
+                    )
+                else:
+                    # Insert new record
+                    self.collection.insert_one(record)
+            print("Data saved to MongoDB successfully.")
+        except Exception as e:
+            print(f"Error saving data to MongoDB: {e}")
