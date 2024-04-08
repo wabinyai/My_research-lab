@@ -49,7 +49,6 @@ class DataHandler:
                 AND TIMESTAMP('{end_time.isoformat()}')
                 AND pm2_5 IS NOT NULL
                 AND site_latitude IS NOT NULL
-            LIMIT 500;
         """
 
         try:
@@ -118,8 +117,7 @@ class DataHandler:
     
     def satellite_image(self):
         images = {
-            'Offline_UV_Aerosol_Index': 'COPERNICUS/S5P/OFFL/L3_AER_AI',
-            
+            'Offline_UV_Aerosol_Index': 'COPERNICUS/S5P/OFFL/L3_AER_AI',            
   
         }
         return images
@@ -212,6 +210,6 @@ class DataHandler:
       merged_df_ = df1.merge(result_df, how='right', on=['site_id', 'date', 'month', 'hour'])
       merged_df_= merged_df_[~merged_df_['country'].isna()].reset_index(drop = True)
       merged_df_ = merged_df_.drop(columns=[col for col in merged_df_.columns if '_datetime' in col])
-      #merged_df_.to_csv('output.csv', index=False)
+      merged_df_.to_csv('output.csv', index=False)
 
       return merged_df_
