@@ -54,7 +54,7 @@ class DataHandler:
                 AND TIMESTAMP('{end_time.isoformat()}')
                 AND pm2_5 IS NOT NULL
                 AND site_latitude IS NOT NULL
-            LIMIT 50;
+            LIMIT 50; 
         """
 
         try:
