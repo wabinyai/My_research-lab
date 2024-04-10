@@ -11,3 +11,5 @@ geemap
 pymongo
 apache-airflow
 apache-airflow[celery,redis]
+celery
+redis
