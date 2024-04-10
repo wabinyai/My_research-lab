@@ -12,7 +12,6 @@ from functools import reduce
 import geemap 
 from pymongo import MongoClient
 from bson.json_util import dumps
-
 from pymongo import MongoClient
 
 from configure import Config
@@ -40,7 +39,7 @@ class DataHandler:
     def random_id(self, N=10):
         return ''.join(random.choice(string.ascii_lowercase + string.digits) for _ in range(N))
     
-    def query_bigquery_batch(self, start_time=None, end_time=None, batch_size=5000):
+    def query_bigquery(self, start_time=None, end_time=None):
         if not start_time:
             start_time = datetime.now() - timedelta(days=7)
         if not end_time:
@@ -55,7 +54,7 @@ class DataHandler:
                 AND TIMESTAMP('{end_time.isoformat()}')
                 AND pm2_5 IS NOT NULL
                 AND site_latitude IS NOT NULL
-            LIMIT {batch_size};
+            LIMIT 500;
         """
 
         try:
@@ -70,8 +69,8 @@ class DataHandler:
             print(f"Error querying BigQuery: {e}")
             return None
 
-    def site_geolocation_data(self, query_bigquery_batch):
-        site_geolocation = query_bigquery_batch[['site_name', 'site_id', 'site_latitude', 'site_longitude',  'country']]
+    def site_geolocation_data(self, query_bigquery):
+        site_geolocation = query_bigquery[['site_name', 'site_id', 'site_latitude', 'site_longitude',  'country']]
         geo_df = site_geolocation.groupby(['site_id']).agg({
             'site_name': 'first',
             'site_latitude': 'first',
