@@ -9,9 +9,9 @@ import random
 import string
 import ee
 from functools import reduce
-import geemap 
 from pymongo import MongoClient
 from bson.json_util import dumps
+
 from pymongo import MongoClient
 
 from configure import Config
@@ -39,7 +39,7 @@ class DataHandler:
     def random_id(self, N=10):
         return ''.join(random.choice(string.ascii_lowercase + string.digits) for _ in range(N))
     
-    def query_bigquery(self, start_time=None, end_time=None):
+    def query_bigquery_batch(self, start_time=None, end_time=None, batch_size=500):
         if not start_time:
             start_time = datetime.now() - timedelta(days=7)
         if not end_time:
@@ -53,8 +53,9 @@ class DataHandler:
             WHERE timestamp BETWEEN TIMESTAMP('{start_time.isoformat()}')
                 AND TIMESTAMP('{end_time.isoformat()}')
                 AND pm2_5 IS NOT NULL
+                AND site_id IS NOT NULL
                 AND site_latitude IS NOT NULL
-            LIMIT 500;
+            LIMIT {batch_size};
         """
 
         try:
@@ -69,8 +70,8 @@ class DataHandler:
             print(f"Error querying BigQuery: {e}")
             return None
 
-    def site_geolocation_data(self, query_bigquery):
-        site_geolocation = query_bigquery[['site_name', 'site_id', 'site_latitude', 'site_longitude',  'country']]
+    def site_geolocation_data(self, query_bigquery_batch):
+        site_geolocation = query_bigquery_batch[['site_name', 'site_id', 'site_latitude', 'site_longitude',  'country']]
         geo_df = site_geolocation.groupby(['site_id']).agg({
             'site_name': 'first',
             'site_latitude': 'first',
@@ -123,15 +124,7 @@ class DataHandler:
     
     def satellite_image(self):
         images = {
-            'Offline_UV_Aerosol_Index': 'COPERNICUS/S5P/OFFL/L3_AER_AI',
-            'SulphurDioxide': 'COPERNICUS/S5P/NRTI/L3_SO2',
-            'CarbonMonoxide': 'COPERNICUS/S5P/NRTI/L3_CO',
-            'NitrogenDioxide': 'COPERNICUS/S5P/NRTI/L3_NO2',
-            'Formaldehyde': 'COPERNICUS/S5P/NRTI/L3_HCHO',
-            'UvAerosolIndex': 'COPERNICUS/S5P/NRTI/L3_AER_AI',
-            'Ozone': 'COPERNICUS/S5P/NRTI/L3_O3',
-            
-  
+            'CLOUD': 'COPERNICUS/S5P/OFFL/L3_CLOUD' 
         }
         return images
     
@@ -146,7 +139,7 @@ class DataHandler:
                 end_date = str(i.end_date.date() + dt.timedelta(days=1))
                 site_location = ee.Geometry.Point(longitude, latitude)
 
-                image_collection = ee.ImageCollection(image)
+                image_collection = ee.ImageCollection(image).select(['cloud_fraction', 'cloud_top_pressure'])
                 if image_collection.size().getInfo() == 0:
                     print(f"No images available for {product}. Skipping.")
                     continue
@@ -222,7 +215,7 @@ class DataHandler:
                 })
                 if existing_record:
                     # Update existing record with new data
-                    new_data = {key: value for key, value in record.items() if key not in ['site_id', 'date', 'hour']}
+                    new_data = {key: value for key, value in record.items() if key not in ['site_id', 'date', 'hour','pm2_5']}
                     self.collection.update_one(
                         {'_id': existing_record['_id']},
                         {'$set': new_data}
@@ -233,3 +226,4 @@ class DataHandler:
             print("Data saved to MongoDB successfully.")
         except Exception as e:
             print(f"Error saving data to MongoDB: {e}")
+            
