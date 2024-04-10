@@ -9,3 +9,5 @@ flask-cors
 ee
 geemap
 pymongo
+apache-airflow
+apache-airflow[celery,redis]
