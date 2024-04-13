@@ -4,15 +4,17 @@ import time
 import pytz
 import schedule
 
+WAIT_TIME =12
+
 def run_data_processing_job():
     # Create an instance of DataHandler
     data_handler = DataHandler()
 
     # Example usage of query_bigquery_batch
-    start_time = datetime.now(tz=pytz.UTC) - timedelta(days=14)
+    start_time = datetime.now(tz=pytz.UTC) - timedelta(days=5)
     end_time = datetime.now(tz=pytz.UTC)
-   # start_time = datetime(2020, 7, 12, 0, 0, 0, tzinfo=pytz.UTC)
-   # end_time  =datetime(2020, 7, 22, 1, 0, 0, tzinfo=pytz.UTC)
+ #   start_time = datetime(2020, 7, 12, 0, 0, 0, tzinfo=pytz.UTC)
+ #   end_time  =datetime(2020, 7, 22, 1, 0, 0, tzinfo=pytz.UTC)
     batch_size = 5000
     total_rows = 0
     last_timestamp = None
@@ -23,7 +25,7 @@ def run_data_processing_job():
     while start_time <= end_time:
         print("Querying BigQuery...")
         data = data_handler.query_bigquery_batch(start_time=start_time, end_time=end_time, batch_size=batch_size)
-        if data.pm2_5 is None or data.pm2_5.empty:
+        if data is None or data.empty:
             if retry_counter < max_retries:
                 print("No data found. Retrying in two weeks...")
                 time.sleep(10)  # Sleep for two minutes
@@ -31,7 +33,7 @@ def run_data_processing_job():
                 continue
             else:
                 print("No data found after maximum retries. Scheduling to run again in two weeks.")
-                schedule.every(2).minutes.do(run_data_processing_job)
+                schedule.every(WAIT_TIME).minutes.do(run_data_processing_job)
                 return
         print("Querying BigQuery complete.")
 
@@ -40,7 +42,7 @@ def run_data_processing_job():
         site_names = data_handler.get_site_names(data)
         site_df = data_handler.get_site_df(data)
         print("Site dataframe created.")
-
+        print(site_df)
         print("Getting image data for sites...")
         dfs = data_handler.get_image_data(site_df)
         print("Image data retrieved.")
@@ -58,7 +60,7 @@ def run_data_processing_job():
         
         if merged_df_.empty:
             print("No merged data. Scheduling to run again in 12 minutes weeks.")
-            schedule.every(12).minutes.do(run_data_processing_job)
+            schedule.every(WAIT_TIME).minutes.do(run_data_processing_job)
             return
         else:
             data_handler.save_to_mongodb(merged_df_)
@@ -83,7 +85,7 @@ if __name__ == "__main__":
     # Schedule the job to run every 2 weeks
     #schedule.every(2).weeks.do(run_data_processing_job)
     # Schedule to run at the 17th second of each minute.
-    schedule.every(12).minutes.do(run_data_processing_job)
+    schedule.every(WAIT_TIME).minutes.do(run_data_processing_job)
     print('waiting...')
 
     while True:
