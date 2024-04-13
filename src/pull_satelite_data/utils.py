@@ -40,11 +40,6 @@ class DataHandler:
         return ''.join(random.choice(string.ascii_lowercase + string.digits) for _ in range(N))
     
     def query_bigquery_batch(self, start_time=None, end_time=None, batch_size=None):
-        if not start_time:
-            start_time = datetime.now() - timedelta(days=7)
-        if not end_time:
-            end_time = datetime.now()
-
         query = f"""
             SELECT 
                 site_id, timestamp, site_name, site_latitude, site_longitude, pm2_5,
