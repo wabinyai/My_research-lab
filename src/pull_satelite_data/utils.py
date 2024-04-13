@@ -39,7 +39,7 @@ class DataHandler:
     def random_id(self, N=10):
         return ''.join(random.choice(string.ascii_lowercase + string.digits) for _ in range(N))
     
-    def query_bigquery_batch(self, start_time=None, end_time=None, batch_size=500):
+    def query_bigquery_batch(self, start_time=None, end_time=None, batch_size=None):
         if not start_time:
             start_time = datetime.now() - timedelta(days=7)
         if not end_time:
@@ -206,6 +206,9 @@ class DataHandler:
     def save_to_mongodb(self, merged_df_):
         try:
             for record in merged_df_.to_dict(orient='records'):
+                # Convert NaN values to None
+                record = {key: (value if pd.notna(value) else None) for key, value in record.items()}
+                
                 # Check if the record already exists in the database
                 existing_record = self.collection.find_one({
                     'site_id': record['site_id'],
@@ -226,4 +229,5 @@ class DataHandler:
             print("Data saved to MongoDB successfully.")
         except Exception as e:
             print(f"Error saving data to MongoDB: {e}")
-            
+
+                
