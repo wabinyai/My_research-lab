@@ -9,10 +9,10 @@ def run_data_processing_job():
     data_handler = DataHandler()
 
     # Example usage of query_bigquery_batch
-   # start_time = datetime.now(tz=pytz.UTC) - timedelta(days=14)
-   # end_time = datetime.now(tz=pytz.UTC)
-    start_time = datetime(2023, 6, 20, 0, 0, 0, tzinfo=pytz.UTC)
-    end_time  =datetime(2023, 6, 21, 1, 0, 0, tzinfo=pytz.UTC)
+    start_time = datetime.now(tz=pytz.UTC) - timedelta(days=14)
+    end_time = datetime.now(tz=pytz.UTC)
+   # start_time = datetime(2020, 7, 12, 0, 0, 0, tzinfo=pytz.UTC)
+   # end_time  =datetime(2020, 7, 22, 1, 0, 0, tzinfo=pytz.UTC)
     batch_size = 5000
     total_rows = 0
     last_timestamp = None
@@ -70,19 +70,20 @@ def run_data_processing_job():
         total_rows += len(data)
         last_timestamp = data.iloc[-1]['timestamp']
         print(f"Processed {total_rows} rows.")
+        print(last_timestamp )
         print(f"Pause for 2 minutes before next 5000 batch....")
         # Pause for 2 minutes before next batch
         time.sleep(120)
 
         # Set start_time to the timestamp of the last row processed
         start_time = last_timestamp
-        print(start_time )
+        
 if __name__ == "__main__":
     run_data_processing_job()
     # Schedule the job to run every 2 weeks
     #schedule.every(2).weeks.do(run_data_processing_job)
     # Schedule to run at the 17th second of each minute.
-    schedule.every(120).minutes.do(run_data_processing_job)
+    schedule.every(12).minutes.do(run_data_processing_job)
     print('waiting...')
 
     while True:
