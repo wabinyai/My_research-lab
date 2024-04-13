@@ -198,8 +198,7 @@ class DataHandler:
       df1 = df[['site_id', 'site_name', 'pm2_5', 'pm10', 'date', 'site_latitude', 'site_longitude', 'country', 'month', 'hour']]
       merged_df_ = df1.merge(result_df, how='right', on=['site_id', 'date', 'month', 'hour'])
       merged_df_= merged_df_[~merged_df_['country'].isna()].reset_index(drop = True)
-      merged_df_ = merged_df_.drop(columns=[col for col in merged_df_.columns if '_datetime' in col])
-      merged_df_.to_csv('output.csv', index=False)
+      merged_df_ = merged_df_.drop(columns=[col for col in merged_df_.columns if '_datetime' in col]) 
 
       return merged_df_
     
