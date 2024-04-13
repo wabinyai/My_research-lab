@@ -1,4 +1,4 @@
-from models.pull_satellite_data import DataHandler
+from utils import DataHandler
 from datetime import datetime, timedelta
 import time
 import pytz
