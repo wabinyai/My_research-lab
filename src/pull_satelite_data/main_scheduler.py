@@ -13,8 +13,8 @@ def run_data_processing_job():
     # Example usage of query_bigquery_batch
  #   start_time = datetime.now(tz=pytz.UTC) - timedelta(days=5)
  #   end_time = datetime.now(tz=pytz.UTC)
-    start_time = datetime(2023, 6, 25, 0, 0, 0, tzinfo=pytz.UTC)
-    end_time  =datetime(2023, 7, 30, 23, 59, 59, tzinfo=pytz.UTC)
+    start_time = datetime(2023, 7, 25, 0, 0, 0, tzinfo=pytz.UTC)
+    end_time  =datetime(2023, 9, 30, 23, 59, 59, tzinfo=pytz.UTC)
     batch_size = 7000
     total_rows = 0
     last_timestamp = None
@@ -45,7 +45,7 @@ def run_data_processing_job():
         site_names = data_handler.get_site_names(data)
         site_df = data_handler.get_site_df(data)
         print("Site dataframe created.")
-        print(site_df)
+        #print(site_df)
         print("Getting image data for sites...")
         dfs = data_handler.get_image_data(site_df)
         print("Image data retrieved.")
@@ -60,7 +60,7 @@ def run_data_processing_job():
 
         print("Extracting and merging data...")
         merged_df_ = data_handler.extract_and_merge_data(data, all_data_dfs)
-        
+        print(merged_df_)
         if merged_df_.empty:
             print("No merged data. Scheduling to run again in 12 minutes weeks.")
             schedule.every(WAIT_TIME).minutes.do(run_data_processing_job)
