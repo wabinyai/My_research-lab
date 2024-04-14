@@ -43,7 +43,6 @@ def run_data_processing_job():
         print("Processing geolocation data...")
         geo_data = data_handler.site_geolocation_data(data)
         site_names = data_handler.get_site_names(data)
-        print(site_names)
         site_df = data_handler.get_site_df(data)
         print("Site dataframe created.")
         print(site_df)
