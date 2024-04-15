@@ -39,12 +39,7 @@ class DataHandler:
     def random_id(self, N=10):
         return ''.join(random.choice(string.ascii_lowercase + string.digits) for _ in range(N))
     
-    def query_bigquery_batch(self, start_time=None, end_time=None, batch_size=500):
-        if not start_time:
-            start_time = datetime.now() - timedelta(days=7)
-        if not end_time:
-            end_time = datetime.now()
-
+    def query_bigquery_batch(self, start_time=None, end_time=None, batch_size=None):
         query = f"""
             SELECT 
                 site_id, timestamp, site_name, site_latitude, site_longitude, pm2_5,
@@ -198,14 +193,16 @@ class DataHandler:
       df1 = df[['site_id', 'site_name', 'pm2_5', 'pm10', 'date', 'site_latitude', 'site_longitude', 'country', 'month', 'hour']]
       merged_df_ = df1.merge(result_df, how='right', on=['site_id', 'date', 'month', 'hour'])
       merged_df_= merged_df_[~merged_df_['country'].isna()].reset_index(drop = True)
-      merged_df_ = merged_df_.drop(columns=[col for col in merged_df_.columns if '_datetime' in col])
-      merged_df_.to_csv('output.csv', index=False)
+      merged_df_ = merged_df_.drop(columns=[col for col in merged_df_.columns if '_datetime' in col]) 
 
       return merged_df_
     
     def save_to_mongodb(self, merged_df_):
         try:
             for record in merged_df_.to_dict(orient='records'):
+                # Convert NaN values to None
+                record = {key: (value if pd.notna(value) else None) for key, value in record.items()}
+                
                 # Check if the record already exists in the database
                 existing_record = self.collection.find_one({
                     'site_id': record['site_id'],
@@ -226,4 +223,5 @@ class DataHandler:
             print("Data saved to MongoDB successfully.")
         except Exception as e:
             print(f"Error saving data to MongoDB: {e}")
-            
+
+                
