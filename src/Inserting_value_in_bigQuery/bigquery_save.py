@@ -60,7 +60,7 @@ def save_predictions_on_bigquery(file):
 def chunks(lst, chunk_size):
     """Yield successive n-sized chunks from lst."""
     for i in range(0, len(lst), chunk_size):
-        yield lst[i:i + chunk_size]
+        yield lst[i:i + chunk_size] 
 
 if __name__ == "__main__":
     file = 'D:/AIRQO/data/ArbaMinch_AirQo_files/sp12.csv'
