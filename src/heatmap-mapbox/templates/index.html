@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Create a heatmap layer</title>
+<meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no">
+<link href="https://api.mapbox.com/mapbox-gl-js/v3.5.1/mapbox-gl.css" rel="stylesheet">
+<script src="https://api.mapbox.com/mapbox-gl-js/v3.5.1/mapbox-gl.js"></script>
+<style>
+body { margin: 0; padding: 0; }
+#map { position: absolute; top: 0; bottom: 0; width: 100%; }
+</style>
+</head>
+<body>
+<div id="map"></div>
+
+<script>
+mapboxgl.accessToken = '{{ mapbox_access_token }}';
+const map = new mapboxgl.Map({
+    container: 'map',
+    style: 'mapbox://styles/mapbox/dark-v11',
+    center: [32.5, 0.35],
+    zoom: 10
+});
+
+async function fetchData() {
+    const response = await fetch('/heatmap-data?lat_north=90&lat_south=-90&lon_east=180&lon_west=-180');
+    const data = await response.json();
+    return data;
+}
+
+map.on('load', async () => {
+    const data = await fetchData();
+
+    map.addSource('air-quality', {
+        type: 'geojson',
+        data: data
+    });
+
+    map.addLayer({
+        id: 'air-quality-heat',
+        type: 'heatmap',
+        source: 'air-quality',
+        maxzoom: 12,
+        paint: {
+            'heatmap-weight': ['interpolate', ['linear'], ['get', 'pm25_level'], 0, 0, 5, 1],
+            'heatmap-intensity': 1,
+            'heatmap-color': [
+                'interpolate',
+                ['linear'],
+                ['heatmap-density'],
+                0, 'rgba(0, 255, 0, 0)',
+                0.2, 'rgba(0, 255, 0, 0.5)',
+                0.4, 'rgba(255, 255, 0, 0.5)',
+                0.6, 'rgba(255, 165, 0, 0.5)',
+                0.8, 'rgba(255, 0, 0, 0.5)',
+                1, 'rgba(128, 0, 128, 0.5)',
+                1.2, 'rgba(128, 0, 0, 0.5)'
+            ],
+            'heatmap-radius': 15,
+            'heatmap-opacity': 0.5
+        }
+    });
+
+    map.addLayer({
+        id: 'air-quality-square',
+        type: 'fill',
+        source: 'air-quality',
+        minzoom: 7,
+        paint: {
+            'fill-color': [
+                'step',
+                ['get', 'pm25_level'],
+                'rgba(0, 255, 0, 0.5)', 1,
+                'rgba(255, 255, 0, 0.5)', 2,
+                'rgba(255, 165, 0, 0.5)', 3,
+                'rgba(255, 0, 0, 0.5)', 4,
+                'rgba(128, 0, 128, 0.5)', 5,
+                'rgba(128, 0, 0, 0.5)'
+            ],
+            'fill-opacity': 0.5,
+            'fill-outline-color': 'rgba(255, 255, 255, 0.5)'
+        }
+    });
+});
+</script>
+
+</body>
+</html>

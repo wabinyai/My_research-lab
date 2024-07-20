@@ -1,0 +1,11 @@
+flask
+pandas
+cdsapi
+netCDF4
+pandas
+numpy
+xarray
+matplotlib
+cartopy
+setuptools
+python-dotenv
