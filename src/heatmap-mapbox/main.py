@@ -104,6 +104,7 @@ data_flat = final_index.values.flatten()
 lon_flat = lons.flatten()
 lat_flat = lats.flatten()
 
+
 # Create a DataFrame
 df = pd.DataFrame({
     'longitude': lon_flat,
