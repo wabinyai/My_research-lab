@@ -18,11 +18,18 @@
             z-index: 1;
             border-radius: 4px;
         }
+        #controls button {
+            margin: 5px;
+        }
     </style>
 </head>
 <body>
 <div id="controls">
     <button id="toggleProjection">Switch to Globe View</button>
+    <button id="darkMode">Dark Mode</button>
+    <button id="lightMode">Light Mode</button>
+    <button id="streetMode">Street Mode</button>
+    <button id="satelliteMode">Satellite Mode</button>
 </div>
 <div id="map"></div>
 
@@ -51,7 +58,7 @@ async function fetchData() {
     return data;
 }
 
-map.on('load', async () => {
+async function addHeatmapLayer() {
     const data = await fetchData();
 
     map.addSource('air-quality', {
@@ -104,6 +111,14 @@ map.on('load', async () => {
             'fill-outline-color': 'rgba(255, 255, 255, 0.5)'
         }
     });
+}
+
+map.on('load', () => {
+    addHeatmapLayer();
+});
+
+map.on('style.load', () => {
+    addHeatmapLayer();
 });
 
 document.getElementById('toggleProjection').addEventListener('click', () => {
@@ -115,6 +130,22 @@ document.getElementById('toggleProjection').addEventListener('click', () => {
         map.setProjection('mercator');
         document.getElementById('toggleProjection').innerText = 'Switch to Globe View';
     }
+});
+
+document.getElementById('darkMode').addEventListener('click', () => {
+    map.setStyle('mapbox://styles/mapbox/dark-v11');
+});
+
+document.getElementById('lightMode').addEventListener('click', () => {
+    map.setStyle('mapbox://styles/mapbox/light-v11');
+});
+
+document.getElementById('streetMode').addEventListener('click', () => {
+    map.setStyle('mapbox://styles/mapbox/streets-v11');
+});
+
+document.getElementById('satelliteMode').addEventListener('click', () => {
+    map.setStyle('mapbox://styles/mapbox/satellite-v9');
 });
 </script>
 
