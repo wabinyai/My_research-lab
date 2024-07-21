@@ -10,4 +10,4 @@ cartopy
 setuptools
 python-dotenv
 Flask-Caching
-
+gunicorn
