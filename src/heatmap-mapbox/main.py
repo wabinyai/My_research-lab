@@ -11,7 +11,7 @@ import json
 import os
 
 # Get yesterday's date in YYYY-MM-DD format
-yesterday_date = (datetime.date.today() - datetime.timedelta(days=79)).strftime('%Y-%m-%d')
+yesterday_date = (datetime.date.today() - datetime.timedelta(days=1)).strftime('%Y-%m-%d')
 
 # Initialize the CDS API client
 c = cdsapi.Client()
