@@ -1,31 +1,3 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <meta charset="utf-8">
-    <title>Create a heatmap layer</title>
-    <meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no">
-    <link href="https://api.mapbox.com/mapbox-gl-js/v3.5.1/mapbox-gl.css" rel="stylesheet">
-    <script src="https://api.mapbox.com/mapbox-gl-js/v3.5.1/mapbox-gl.js"></script>
-    <link href="static/css/styles.css" rel="stylesheet">
-
-</head>
-<body>
-<div id="controls">
-    <button id="toggleProjection">Switch to Globe View</button>
-    <button id="darkMode">Dark Mode</button>
-    <button id="lightMode">Light Mode</button>
-    <button id="streetMode">Street Mode</button>
-    <button id="satelliteMode">Satellite Mode</button>
-    <button id="refreshMap">Refresh Map</button>
-</div>
-<div id="zoomControls">
-    <button id="zoomIn">+</button>
-    <button id="zoomOut">-</button>
-</div>
-<div id="dataSource">Data source: Copernicus</div>
-<div id="map"></div>
-
-<script>
 if ('serviceWorker' in navigator) {
     navigator.serviceWorker.register('static/js/service-worker.js')
     .then((registration) => {
@@ -45,7 +17,7 @@ const map = new mapboxgl.Map({
 });
 
 async function fetchData() {
-    const response = await fetch('/heatmap-data?lat_north=90&lat_south=-90&lon_east=180&lon_west=-180');
+    const response = await fetch('http://127.0.0.1:5000/heatmap-data?lat_north=90&lat_south=-90&lon_east=180&lon_west=-180');
     const data = await response.json();
     return data;
 }
@@ -155,7 +127,3 @@ document.getElementById('zoomIn').addEventListener('click', () => {
 document.getElementById('zoomOut').addEventListener('click', () => {
     map.zoomOut();
 });
-</script>
-<script src="static/js/scripts.js"></script>
-</body>
-</html>

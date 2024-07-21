@@ -1,18 +1,18 @@
 from flask import Flask, request, jsonify, render_template
 from flask_caching import Cache
 import pandas as pd
-from dotenv import load_dotenv
 import os
+from config import Config
 
 # Initialize Flask app and load environment variables
 app = Flask(__name__)
-load_dotenv()
+app.config.from_object(Config)
 
 # Configure Flask-Caching
-cache = Cache(app, config={'CACHE_TYPE': 'simple'})
+cache = Cache(app)
 
 # Load data function with caching
-@cache.cached(timeout=300)
+@cache.cached(timeout=Config.CACHE_DEFAULT_TIMEOUT)
 def load_data():
     return pd.read_json('aqi_data.json')
 
@@ -32,7 +32,7 @@ def pm25_to_aqi_color(pm25_level):
         return 'maroon'
 
 @app.route('/heatmap-data', methods=['GET'])
-@cache.cached(timeout=300, query_string=True)
+@cache.cached(timeout=Config.CACHE_DEFAULT_TIMEOUT, query_string=True)
 def heatmap_data():
     try:
         # Get request parameters
@@ -70,7 +70,7 @@ def heatmap_data():
 
 @app.route('/')
 def index():
-    mapbox_access_token = os.getenv('MAPBOX_ACCESS_TOKEN')
+    mapbox_access_token = app.config['MAPBOX_ACCESS_TOKEN']
     return render_template('index.html', mapbox_access_token=mapbox_access_token)
 
 if __name__ == '__main__':
