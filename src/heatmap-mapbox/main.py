@@ -11,7 +11,7 @@ import json
 import os
 
 # Get yesterday's date in YYYY-MM-DD format
-yesterday_date = (datetime.date.today() - datetime.timedelta(days=1)).strftime('%Y-%m-%d')
+yesterday_date = (datetime.date.today() - datetime.timedelta(days=79)).strftime('%Y-%m-%d')
 
 # Initialize the CDS API client
 c = cdsapi.Client()
@@ -20,7 +20,9 @@ c = cdsapi.Client()
 zip_file_path = 'download.netcdf_zip'
 extract_dir = 'extracted_files'
 file_path = 'extracted_files/data.nc'
-
+# Check if the zip file already exists and delete it if so
+if os.path.exists(zip_file_path):
+    os.remove(zip_file_path)
 # Check if the file already exists
 if not os.path.exists(zip_file_path):
     # Retrieve data from CDS
