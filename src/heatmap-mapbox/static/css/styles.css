@@ -22,10 +22,10 @@ body { margin: 0; padding: 0; }
     transition: background-color 0.3s ease;
 }
 #controls button:hover {
-    background-color: #0056b3;
+    background-color: #ccd8e5;
 }
 #controls button:active {
-    background-color: #004494;
+    background-color: #7e8ea0;
 }
 #zoomControls {
     position: absolute;
