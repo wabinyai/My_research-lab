@@ -13,13 +13,68 @@
             position: absolute;
             top: 10px;
             left: 10px;
-            background: white;
+            background: rgba(255, 255, 255, 0.9);
             padding: 10px;
             z-index: 1;
-            border-radius: 4px;
+            border-radius: 8px;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
         }
         #controls button {
             margin: 5px;
+            padding: 10px;
+            border: none;
+            border-radius: 4px;
+            background-color: #007bff;
+            color: white;
+            font-size: 14px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        #controls button:hover {
+            background-color: #0056b3;
+        }
+        #controls button:active {
+            background-color: #004494;
+        }
+        #zoomControls {
+            position: absolute;
+            bottom: 10px;
+            right: 10px;
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 8px;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+            z-index: 1;
+        }
+        #zoomControls button {
+            display: block;
+            margin: 0;
+            padding: 10px;
+            width: 40px;
+            height: 40px;
+            border: none;
+            border-radius: 4px;
+            background-color: rgb(204, 201, 201);
+            color: rgb(135, 132, 132);
+            font-size: 24px;
+            line-height: 1;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        #zoomControls button:hover {
+            background-color: #b3b3b3;
+        }
+        #zoomControls button:active {
+            background-color: #8c8c8c;
+        }
+        #dataSource {
+            position: absolute;
+            bottom: 10px;
+            left: 10px;
+            background: rgba(255, 255, 255, 0.9);
+            padding: 5px;
+            border-radius: 4px;
+            font-size: 12px;
+            z-index: 1;
         }
     </style>
 </head>
@@ -30,12 +85,18 @@
     <button id="lightMode">Light Mode</button>
     <button id="streetMode">Street Mode</button>
     <button id="satelliteMode">Satellite Mode</button>
+    <button id="refreshMap">Refresh Map</button>
 </div>
+<div id="zoomControls">
+    <button id="zoomIn">+</button>
+    <button id="zoomOut">-</button>
+</div>
+<div id="dataSource">Data source: Copernicus</div>
 <div id="map"></div>
 
 <script>
 if ('serviceWorker' in navigator) {
-    navigator.serviceWorker.register('/service-worker.js')
+    navigator.serviceWorker.register('static/service-worker.js')
     .then((registration) => {
         console.log('Service Worker registered with scope:', registration.scope);
     }).catch((error) => {
@@ -61,56 +122,60 @@ async function fetchData() {
 async function addHeatmapLayer() {
     const data = await fetchData();
 
-    map.addSource('air-quality', {
-        type: 'geojson',
-        data: data
-    });
+    if (map.getSource('air-quality')) {
+        map.getSource('air-quality').setData(data);
+    } else {
+        map.addSource('air-quality', {
+            type: 'geojson',
+            data: data
+        });
 
-    map.addLayer({
-        id: 'air-quality-heat',
-        type: 'heatmap',
-        source: 'air-quality',
-        maxzoom: 12,
-        paint: {
-            'heatmap-weight': ['interpolate', ['linear'], ['get', 'pm25_level'], 0, 0, 5, 1],
-            'heatmap-intensity': ['interpolate', ['linear'], ['zoom'], 0, 1, 12, 1],
-            'heatmap-color': [
-                'interpolate',
-                ['linear'],
-                ['heatmap-density'],
-                0, 'rgba(0, 255, 0, 0)',
-                0.2, 'rgba(0, 255, 0, 0.5)',
-                0.4, 'rgba(255, 255, 0, 0.5)',
-                0.6, 'rgba(255, 165, 0, 0.5)',
-                0.8, 'rgba(255, 0, 0, 0.5)',
-                1, 'rgba(128, 0, 128, 0.5)',
-                1.2, 'rgba(128, 0, 0, 0.5)'
-            ],
-            'heatmap-radius': ['interpolate', ['linear'], ['zoom'], 0, 2, 12, 20],
-            'heatmap-opacity': 0.5
-        }
-    });
+        map.addLayer({
+            id: 'air-quality-heat',
+            type: 'heatmap',
+            source: 'air-quality',
+            maxzoom: 12,
+            paint: {
+                'heatmap-weight': ['interpolate', ['linear'], ['get', 'pm25_level'], 0, 0, 5, 1],
+                'heatmap-intensity': ['interpolate', ['linear'], ['zoom'], 0, 1, 12, 1],
+                'heatmap-color': [
+                    'interpolate',
+                    ['linear'],
+                    ['heatmap-density'],
+                    0, 'rgba(0, 255, 0, 0)',
+                    0.2, 'rgba(0, 255, 0, 0.5)',
+                    0.4, 'rgba(255, 255, 0, 0.5)',
+                    0.6, 'rgba(255, 165, 0, 0.5)',
+                    0.8, 'rgba(255, 0, 0, 0.5)',
+                    1, 'rgba(128, 0, 128, 0.5)',
+                    1.2, 'rgba(128, 0, 0, 0.5)'
+                ],
+                'heatmap-radius': ['interpolate', ['linear'], ['zoom'], 0, 2, 12, 20],
+                'heatmap-opacity': 0.5
+            }
+        });
 
-    map.addLayer({
-        id: 'air-quality-square',
-        type: 'fill',
-        source: 'air-quality',
-        minzoom: 2,
-        paint: {
-            'fill-color': [
-                'step',
-                ['get', 'pm25_level'],
-                'rgba(0, 255, 0, 0.5)', 1,
-                'rgba(255, 255, 0, 0.5)', 2,
-                'rgba(255, 165, 0, 0.5)', 3,
-                'rgba(255, 0, 0, 0.5)', 4,
-                'rgba(128, 0, 128, 0.5)', 5,
-                'rgba(128, 0, 0, 0.5)'
-            ],
-            'fill-opacity': 0.5,
-            'fill-outline-color': 'rgba(255, 255, 255, 0.5)'
-        }
-    });
+        map.addLayer({
+            id: 'air-quality-square',
+            type: 'fill',
+            source: 'air-quality',
+            minzoom: 2,
+            paint: {
+                'fill-color': [
+                    'step',
+                    ['get', 'pm25_level'],
+                    'rgba(0, 255, 0, 0.5)', 1,
+                    'rgba(255, 255, 0, 0.5)', 2,
+                    'rgba(255, 165, 0, 0.5)', 3,
+                    'rgba(255, 0, 0, 0.5)', 4,
+                    'rgba(128, 0, 128, 0.5)', 5,
+                    'rgba(128, 0, 0, 0.5)'
+                ],
+                'fill-opacity': 0.5,
+                'fill-outline-color': 'rgba(255, 255, 255, 0.5)'
+            }
+        });
+    }
 }
 
 map.on('load', () => {
@@ -146,6 +211,18 @@ document.getElementById('streetMode').addEventListener('click', () => {
 
 document.getElementById('satelliteMode').addEventListener('click', () => {
     map.setStyle('mapbox://styles/mapbox/satellite-v9');
+});
+
+document.getElementById('refreshMap').addEventListener('click', () => {
+    addHeatmapLayer();
+});
+
+document.getElementById('zoomIn').addEventListener('click', () => {
+    map.zoomIn();
+});
+
+document.getElementById('zoomOut').addEventListener('click', () => {
+    map.zoomOut();
 });
 </script>
 
