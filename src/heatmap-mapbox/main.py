@@ -11,7 +11,7 @@ import json
 import os
 
 # Get yesterday's date in YYYY-MM-DD format
-yesterday_date = (datetime.date.today() - datetime.timedelta(days=79)).strftime('%Y-%m-%d')
+yesterday_date = (datetime.date.today() - datetime.timedelta(days=3)).strftime('%Y-%m-%d')
 
 # Initialize the CDS API client
 c = cdsapi.Client()
@@ -121,7 +121,10 @@ data = {
     "pm25_level": df['pm25_level'].tolist()
 }
 
-with open('aqi_data.json', 'w') as json_file:
-    json.dump(data, json_file)
+# Check if the JSON file already exists and delete it if so
+json_file_path = 'aqi_data.json'
+if os.path.exists(json_file_path):
+    os.remove(json_file_path)
 
-#print(df.head())
+with open(json_file_path, 'w') as json_file:
+    json.dump(data, json_file)

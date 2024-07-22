@@ -7,7 +7,6 @@
     <link href="https://api.mapbox.com/mapbox-gl-js/v3.5.1/mapbox-gl.css" rel="stylesheet">
     <script src="https://api.mapbox.com/mapbox-gl-js/v3.5.1/mapbox-gl.js"></script>
     <link href="static/css/styles.css" rel="stylesheet">
-
 </head>
 <body>
 <div id="controls">
@@ -40,18 +39,19 @@ const map = new mapboxgl.Map({
     container: 'map',
     style: 'mapbox://styles/mapbox/dark-v11',
     center: [32.5, 0.35],
-    zoom: 2,
+    zoom: 3,
     projection: 'mercator' // start with the mercator projection
 });
 
-async function fetchData() {
-    const response = await fetch('/heatmap-data?lat_north=90&lat_south=-90&lon_east=180&lon_west=-180');
+async function fetchData(bounds) {
+    const response = await fetch(`/heatmap-data?lat_north=${bounds._ne.lat}&lat_south=${bounds._sw.lat}&lon_east=${bounds._ne.lng}&lon_west=${bounds._sw.lng}`);
     const data = await response.json();
     return data;
 }
 
-async function addHeatmapLayer() {
-    const data = await fetchData();
+async function updateHeatmapLayer() {
+    const bounds = map.getBounds();
+    const data = await fetchData(bounds);
 
     if (map.getSource('air-quality')) {
         map.getSource('air-quality').setData(data);
@@ -110,11 +110,15 @@ async function addHeatmapLayer() {
 }
 
 map.on('load', () => {
-    addHeatmapLayer();
+    updateHeatmapLayer();
 });
 
-map.on('style.load', () => {
-    addHeatmapLayer();
+map.on('moveend', () => {
+    updateHeatmapLayer();
+});
+
+map.on('zoomend', () => {
+    updateHeatmapLayer();
 });
 
 document.getElementById('toggleProjection').addEventListener('click', () => {
@@ -145,7 +149,7 @@ document.getElementById('satelliteMode').addEventListener('click', () => {
 });
 
 document.getElementById('refreshMap').addEventListener('click', () => {
-    addHeatmapLayer();
+    updateHeatmapLayer();
 });
 
 document.getElementById('zoomIn').addEventListener('click', () => {
