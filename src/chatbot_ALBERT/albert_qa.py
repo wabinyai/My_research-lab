@@ -29,3 +29,4 @@ class AlbertQA:
         answer = self.tokenizer.convert_tokens_to_string(self.tokenizer.convert_ids_to_tokens(input_ids[answer_start:answer_end]))
         return answer if answer.strip() else "No answer could be found in the context."
 
+

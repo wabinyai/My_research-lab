@@ -6,3 +6,4 @@ if __name__ == '__main__':
     # Initialize and run the app
     app = QAStreamlitApp()
     app.run()
+

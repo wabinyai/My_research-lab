@@ -43,3 +43,4 @@ class QAStreamlitApp:
                 st.warning("Please enter a question.")
             elif not self.document_text:
                 st.warning("Please upload PDFs first.")
+

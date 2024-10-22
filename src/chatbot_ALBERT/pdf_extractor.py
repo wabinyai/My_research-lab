@@ -19,3 +19,4 @@ class PDFExtractor:
             except Exception as e:
                 st.error(f"Error processing {pdf_file.name}: {e}")
         return self.text
+
