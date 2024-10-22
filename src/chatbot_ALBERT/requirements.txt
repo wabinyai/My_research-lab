@@ -1,0 +1,6 @@
+pdfplumber
+transformers
+streamlit 
+torch
+sentencepiece
+
