@@ -1,5 +1,6 @@
 from utils import DataHandler
 from datetime import datetime, timedelta
+import time
 
 def main():
     # Create an instance of DataHandler

@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Create a heatmap layer</title>
+    <meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no">
+    <link href="https://api.mapbox.com/mapbox-gl-js/v3.5.1/mapbox-gl.css" rel="stylesheet">
+    <script src="https://api.mapbox.com/mapbox-gl-js/v3.5.1/mapbox-gl.js"></script>
+    <link href="static/css/styles.css" rel="stylesheet">
+</head>
+<body>
+<div id="controls">
+    <button id="toggleProjection">Switch to Globe View</button>
+    <button id="darkMode">Dark Mode</button>
+    <button id="lightMode">Light Mode</button>
+    <button id="streetMode">Street Mode</button>
+    <button id="satelliteMode">Satellite Mode</button>
+    <button id="refreshMap">Refresh Map</button>
+</div>
+<div id="zoomControls">
+    <button id="zoomIn">+</button>
+    <button id="zoomOut">-</button>
+</div>
+<div id="dataSource">Data source: Copernicus</div>
+<div id="map"></div>
+
+<script>
+if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.register('static/js/service-worker.js')
+    .then((registration) => {
+        console.log('Service Worker registered with scope:', registration.scope);
+    }).catch((error) => {
+        console.log('Service Worker registration failed:', error);
+    });
+}
+
+mapboxgl.accessToken = '{{ mapbox_access_token }}';
+const map = new mapboxgl.Map({
+    container: 'map',
+    style: 'mapbox://styles/mapbox/dark-v11',
+    center: [32.5, 0.35],
+    zoom: 3,
+    projection: 'mercator' // start with the mercator projection
+});
+
+async function fetchData(bounds) {
+    const response = await fetch(`/heatmap-data?lat_north=${bounds._ne.lat}&lat_south=${bounds._sw.lat}&lon_east=${bounds._ne.lng}&lon_west=${bounds._sw.lng}`);
+    const data = await response.json();
+    return data;
+}
+
+async function updateHeatmapLayer() {
+    const bounds = map.getBounds();
+    const data = await fetchData(bounds);
+
+    if (map.getSource('air-quality')) {
+        map.getSource('air-quality').setData(data);
+    } else {
+        map.addSource('air-quality', {
+            type: 'geojson',
+            data: data
+        });
+
+        map.addLayer({
+            id: 'air-quality-heat',
+            type: 'heatmap',
+            source: 'air-quality',
+            maxzoom: 12,
+            paint: {
+                'heatmap-weight': ['interpolate', ['linear'], ['get', 'pm25_level'], 0, 0, 5, 1],
+                'heatmap-intensity': ['interpolate', ['linear'], ['zoom'], 0, 1, 12, 1],
+                'heatmap-color': [
+                    'interpolate',
+                    ['linear'],
+                    ['heatmap-density'],
+                    0, 'rgba(0, 255, 0, 0)',
+                    0.2, 'rgba(0, 255, 0, 0.5)',
+                    0.4, 'rgba(255, 255, 0, 0.5)',
+                    0.6, 'rgba(255, 165, 0, 0.5)',
+                    0.8, 'rgba(255, 0, 0, 0.5)',
+                    1, 'rgba(128, 0, 128, 0.5)',
+                    1.2, 'rgba(128, 0, 0, 0.5)'
+                ],
+                'heatmap-radius': ['interpolate', ['linear'], ['zoom'], 0, 2, 12, 20],
+                'heatmap-opacity': 0.5
+            }
+        });
+
+        map.addLayer({
+            id: 'air-quality-square',
+            type: 'fill',
+            source: 'air-quality',
+            minzoom: 2,
+            paint: {
+                'fill-color': [
+                    'step',
+                    ['get', 'pm25_level'],
+                    'rgba(0, 255, 0, 0.5)', 1,
+                    'rgba(255, 255, 0, 0.5)', 2,
+                    'rgba(255, 165, 0, 0.5)', 3,
+                    'rgba(255, 0, 0, 0.5)', 4,
+                    'rgba(128, 0, 128, 0.5)', 5,
+                    'rgba(128, 0, 0, 0.5)'
+                ],
+                'fill-opacity': 0.5,
+                'fill-outline-color': 'rgba(255, 255, 255, 0.5)'
+            }
+        });
+    }
+}
+
+map.on('load', () => {
+    updateHeatmapLayer();
+});
+
+map.on('moveend', () => {
+    updateHeatmapLayer();
+});
+
+map.on('zoomend', () => {
+    updateHeatmapLayer();
+});
+
+document.getElementById('toggleProjection').addEventListener('click', () => {
+    const currentProjection = map.getProjection();
+    if (currentProjection.name === 'mercator') {
+        map.setProjection('globe');
+        document.getElementById('toggleProjection').innerText = 'Switch to Flat Map';
+    } else {
+        map.setProjection('mercator');
+        document.getElementById('toggleProjection').innerText = 'Switch to Globe View';
+    }
+});
+
+document.getElementById('darkMode').addEventListener('click', () => {
+    map.setStyle('mapbox://styles/mapbox/dark-v11');
+});
+
+document.getElementById('lightMode').addEventListener('click', () => {
+    map.setStyle('mapbox://styles/mapbox/light-v11');
+});
+
+document.getElementById('streetMode').addEventListener('click', () => {
+    map.setStyle('mapbox://styles/mapbox/streets-v11');
+});
+
+document.getElementById('satelliteMode').addEventListener('click', () => {
+    map.setStyle('mapbox://styles/mapbox/satellite-v9');
+});
+
+document.getElementById('refreshMap').addEventListener('click', () => {
+    updateHeatmapLayer();
+});
+
+document.getElementById('zoomIn').addEventListener('click', () => {
+    map.zoomIn();
+});
+
+document.getElementById('zoomOut').addEventListener('click', () => {
+    map.zoomOut();
+});
+</script>
+<script src="static/js/scripts.js"></script>
+</body>
+</html>
